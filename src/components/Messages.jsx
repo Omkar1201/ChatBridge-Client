@@ -9,7 +9,7 @@ const Messages = () => {
 
     if (!messages) return
     return (
-        <div className="max-h-[calc(100vh-6.4rem)] px-16 border-black overflow-auto ">
+        <div className="max-h-[calc(100vh-6.9rem)] px-16 border-black overflow-auto ">
             {
                 messages?.map((message, index) => (
                     <Message message={message} key={index} />

@@ -55,11 +55,11 @@ const Messagecontainer = () => {
             </div>
 
             {selectedUser && (
-                <div className="flex flex-col flex-grow">
+                <div className="flex flex-col flex-grow ">
                     <div className="flex-grow overflow-y-auto">
                         <Messages />
                     </div>
-                    <div className="border-t">
+                    <div className=" relative">
                         <Sendinput />
                     </div>
                 </div>
