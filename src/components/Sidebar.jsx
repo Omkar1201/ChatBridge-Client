@@ -15,7 +15,16 @@ const Sidebar = () => {
 
     const searchHandler = async (event) => {
         event.preventDefault();
-        const conversationUser = otherUsers?.find((user) => user.username.includes(search));
+        const normalizedSearch = search.replace(/\s+/g, '').toLowerCase();
+
+        const conversationUser = otherUsers?.find((user) => {
+            const normalizedUsername = user.username.replace(/\s+/g, '').toLowerCase();
+            const normalizedFullName = user.fullName.replace(/\s+/g, '').toLowerCase();
+
+            return normalizedUsername.includes(normalizedSearch) ||
+                normalizedFullName.includes(normalizedSearch);
+        });
+        
         if (conversationUser) {
             dispatch(setOtherUsers([conversationUser]));
         } else {
@@ -47,10 +56,10 @@ const Sidebar = () => {
                 <div className="cursor-text text-2xl text-zinc-400">
                     <CiSearch />
                 </div>
-                <input 
-                    type="text" 
+                <input
+                    type="text"
                     placeholder="Search..."
-                    value={search} 
+                    value={search}
                     onChange={(e) => setSearch(e.target.value)}
                     className="h-[2.5rem] w-full px-2 rounded-2xl outline-none"
                 />

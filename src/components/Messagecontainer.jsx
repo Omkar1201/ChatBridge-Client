@@ -26,7 +26,6 @@ const Messagecontainer = () => {
                         selectedUser ? (
                             <>
                                 <div>{selectedUser.username}</div>
-                                {/* <div className={`p-1 rounded-full absolute top-1 right-0 ${onlineUsers?.includes(user._id) ? 'bg-green-500' : ''}`}></div> */}
                                 <div className="text-[0.8rem] text-gray-500">
                                     {
                                         onlineUsers?.includes(selectedUser._id) ? (
