@@ -1,7 +1,9 @@
 import Sidebar from "./Sidebar";
 import Messagecontainer from "./Messagecontainer";
-const Home = () => {
+import useGetOtherUsers from "../hooks/useGetOtherUsers"
 
+const Home = () => {
+    useGetOtherUsers()
     return (
         <div className=" h-screen border-black overflow-auto">
             <div className="flex">

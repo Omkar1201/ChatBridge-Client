@@ -72,7 +72,7 @@ const Edit = () => {
         const payload = {
             fullName,
             username,
-            email: authUser.email,
+            email: authUser?.email,
             bio,
             profilePhoto: base64Image, // sending base64 string
         };
@@ -88,7 +88,7 @@ const Edit = () => {
                     withCredentials: true,
                 }
             );
-            dispatch(setAuthUser(responseData.data.updatedUserData))
+            dispatch(setAuthUser(responseData?.data?.updatedUserData))
             toast.success(`${responseData?.data?.message}`);
         } catch (error) {
             console.error("Error updating profile:", error.response?.data);

@@ -13,7 +13,7 @@ const Messagecontainer = () => {
                 <div className="h-[3.2rem] gap-4 items-center justify-start flex text-[1.1rem]  font-semibold">
                     <div className="w-10 border rounded-full h-10 overflow-hidden">
                         {
-                            selectedUser && selectedUser.profilePhoto ? (
+                            selectedUser?.profilePhoto ? (
                                 <img src={selectedUser.profilePhoto} alt="img" />
                             ) : (
                                 <div className={`text-[1.2rem] text-zinc-400 bg-zinc-300 rounded-full h-full flex justify-center items-center`}>

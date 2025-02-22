@@ -1,9 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
-import useGetOtherUsers from "../hooks/useGetOtherUsers"
 import { setSelectedUser } from "../redux/userSlice";
 import { FaUser } from "react-icons/fa6";
 const Otherusers = ({ otherUsers, search }) => {
-    useGetOtherUsers();
     const dispatch = useDispatch();
 
     const { selectedUser, onlineUsers } = useSelector(store => store.user);

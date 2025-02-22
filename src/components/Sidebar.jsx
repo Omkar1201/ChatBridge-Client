@@ -5,10 +5,11 @@ import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setAuthUser } from "../redux/userSlice";
+import { setAuthUser, setOnlineUsers, setOtherUsers, setSelectedUser } from "../redux/userSlice";
 import { RxCross2 } from "react-icons/rx";
 import Setting from "./Setting";
 import { LuSettings } from "react-icons/lu";
+import { setMessages } from "../redux/messageSlice";
 
 const Sidebar = () => {
     const navigate = useNavigate();
@@ -22,6 +23,7 @@ const Sidebar = () => {
     useEffect(() => {
         setDisplayedUsers(otherUsers);
     }, [otherUsers]);
+
 
     useEffect(() => {
         if (search.trim() === "") {
@@ -53,6 +55,10 @@ const Sidebar = () => {
                 }
             );
             dispatch(setAuthUser(null));
+            dispatch(setSelectedUser(null));
+            dispatch(setOtherUsers(null));
+            dispatch(setOnlineUsers(null));
+            dispatch(setMessages(null));
             toast.success(responseData?.data?.message);
             setTimeout(() => {
                 navigate('/signin');
@@ -89,7 +95,7 @@ const Sidebar = () => {
 
             <div className="flex-grow overflow-y-auto mt-4 custom-scrollbar">
                 {
-                    displayedUsers.length > 0 ? (
+                    displayedUsers?.length > 0 ? (
                         <Otherusers otherUsers={displayedUsers} search={search} />
                     ) : (
                         <div className=" h-full items-center justify-center flex">No result</div>
