@@ -24,7 +24,7 @@ const Setting = () => {
     return (
         <div>
             <div className="bg-white px-4 pt-2 pb-5 h-full border-b ">
-                <div className={`text-[1.5rem] font-semibold `} >Setting</div>
+                <div className={`text-[1.5rem] font-semibold mt-2 `} >Setting</div>
                 <div className="flex justify-end text-[1.5rem] mt-4">
                     <div className="hover:bg-gray-100 p-2 cursor-pointer rounded-full" onClick={() => setShowEdit(!showEdit)} title="Edit profile">
                         <MdEdit />

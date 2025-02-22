@@ -3,7 +3,7 @@ import axios from 'axios'
 import toast from 'react-hot-toast';
 import { useDispatch } from "react-redux";
 import { setAuthUser } from "../redux/userSlice";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 const Signin = () => {
@@ -43,48 +43,50 @@ const Signin = () => {
         }
     }
     return (
-        <div className="bg-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 p-10 border border-gray-300 rounded-lg">
+        <div className="bg-white shadow-xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 p-10 border border-gray-300 rounded-lg">
+            <div className="text-center text-[2rem] font-semibold mb-4">Login</div>
             <form onSubmit={handleSignin} className="">
-                <div className="relative mb-8">
-                    <input type="text" value={username} onChange={(e) => setUsername(e.target.value)}
-                        onFocus={() => setIsUsernameFocused(true)}
-                        onBlur={() => setIsUsernameFocused(false)}
-                        className="w-full px-3 py-2.5 text-base border border-gray-300 rounded-md focus:border-2 focus:border-blue-500 focus:outline-none"
-                        required
-                    />
-                    <label
-                        className={`absolute left-3 pointer-events-none transition-all duration-300 ${username || isUsernameFocused
-                            ? '-top-2 left-2 text-blue-500 text-xs bg-white px-2'
-                            : 'top-[0.55rem] text-gray-500'
-                            }`}
+                <div className="flex flex-col gap-7">
+                    <div className="relative">
+                        <input type="text" value={username} onChange={(e) => setUsername(e.target.value)}
+                            onFocus={() => setIsUsernameFocused(true)}
+                            onBlur={() => setIsUsernameFocused(false)}
+                            className="w-full px-3 py-2.5 text-base border border-gray-300 rounded-md focus:border-2 focus:border-blue-500 focus:outline-none"
+                            required
+                        />
+                        <label
+                            className={`absolute left-3 pointer-events-none transition-all duration-300 ${username || isUsernameFocused
+                                ? '-top-2 left-2 text-blue-500 text-xs bg-white px-2'
+                                : 'top-[0.55rem] text-gray-500'
+                                }`}
+                        >
+                            Username
+                        </label>
+                    </div>
+
+                    <div className="relative">
+                        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required
+                            onFocus={() => setIsPasswordFocused(true)}
+                            onBlur={() => setIsPasswordFocused(false)}
+                            className="w-full px-3 py-2.5 text-base border border-gray-300 rounded-md focus:border-2 focus:border-blue-500 focus:outline-none"
+                        />
+                        <label
+                            className={`absolute left-3 pointer-events-none transition-all duration-300 ${password || isPasswordFocused
+                                ? '-top-2 left-2 text-blue-500 text-xs bg-white px-2'
+                                : 'top-[0.55rem] text-gray-500'
+                                }`}
+                        >
+                            Password
+                        </label>
+                    </div>
+                    <button
+                        type="submit"
+                        className="bg-blue-500 w-full text-white px-5 py-2.5 rounded-md float-right hover:bg-blue-600 focus:outline-none"
                     >
-                        Username
-                    </label>
+                        Sign In
+                    </button>
                 </div>
-
-                <div className="relative mb-8">
-                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required
-                        onFocus={() => setIsPasswordFocused(true)}
-                        onBlur={() => setIsPasswordFocused(false)}
-                        className="w-full px-3 py-2.5 text-base border border-gray-300 rounded-md focus:border-2 focus:border-blue-500 focus:outline-none"
-                    />
-                    <label
-                        className={`absolute left-3 pointer-events-none transition-all duration-300 ${password || isPasswordFocused
-                            ? '-top-2 left-2 text-blue-500 text-xs bg-white px-2'
-                            : 'top-[0.55rem] text-gray-500'
-                            }`}
-                    >
-                        Password
-                    </label>
-                </div>
-
-
-                <button
-                    type="submit"
-                    className="bg-blue-500 text-white px-5 py-2.5 rounded-md float-right hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300"
-                >
-                    Sign In
-                </button>
+                <div className="text-center font-semibold my-2 ">Don't have an account?<Link to={'/signup'}><span className="text-blue-500"> Signup</span></Link> </div>
             </form>
         </div>
     );

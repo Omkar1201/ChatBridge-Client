@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 
 const Signup = () => {
@@ -43,9 +44,10 @@ const Signup = () => {
                     }
                 }
             )
-            console.log(responseData);
+            toast.success(responseData.data.message)
         }
         catch (error) {
+            toast.error(error.response?.data?.message)
             console.error("Error signing in:", error.response?.data || error.message);
         }
     }
