@@ -8,8 +8,8 @@ const Message = ({ message }) => {
     const { authUser } = useSelector(store => store.user)
 
     const timestamp = message.createdAt;
-const options = { hour: '2-digit', minute: '2-digit', hour12: false };
-const timeString = new Date(timestamp).toLocaleTimeString('en-GB', options);
+    const options = { hour: '2-digit', minute: '2-digit', hour12: false };
+    const timeString = new Date(timestamp).toLocaleTimeString('en-GB', options);
 
     useEffect(() => {
         scroll.current?.scrollIntoView({ behavior: "smooth" })
