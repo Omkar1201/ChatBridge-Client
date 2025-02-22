@@ -30,11 +30,11 @@ const Otherusers = ({ otherUsers, search }) => {
             {
                 otherUsers?.map((user, index) => (
                     <div
-                        className={`${user._id === selectedUser?._id ? 'bg-zinc-200' : 'hover:bg-zinc-100'} rounded-lg cursor-pointer flex items-center gap-2 py-[0.7rem] px-2`}
+                        className={`${user._id === selectedUser?._id ? 'bg-zinc-200' : 'hover:bg-zinc-100'} relative rounded-lg cursor-pointer flex items-center gap-2 py-[0.7rem] px-2`}
                         key={index}
                         onClick={() => selectedUserHandler(user)}
                     >
-                        <div className="w-10 rounded-full border h-10 relative">
+                        <div className="w-10 overflow-hidden rounded-full border h-10">
                             {user.profilePhoto ? (
                                 <img src={user.profilePhoto} alt="img" onError={(e) => e.target.style.display = 'none'} />
                             ) : (
@@ -42,8 +42,8 @@ const Otherusers = ({ otherUsers, search }) => {
                                     <FaUser />
                                 </div>
                             )}
-                            <div className={`p-1 rounded-full absolute top-1 right-0 ${onlineUsers?.includes(user._id) ? 'bg-green-500' : ''}`}></div>
                         </div>
+                        <div className={`p-1 rounded-full absolute top-4 left-10 ${onlineUsers?.includes(user._id) ? 'bg-green-500' : ''}`}></div>
                         <div>
                             {highlightText(user.fullName, search)}
                         </div>

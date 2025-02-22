@@ -11,7 +11,7 @@ const Messagecontainer = () => {
         <div className="h-screen w-screen border-black flex flex-col">
             <div className="flex justify-between items-center border px-4">
                 <div className="h-[3.2rem] gap-4 items-center justify-start flex text-[1.1rem]  font-semibold">
-                    <div className="w-10 border rounded-full h-10">
+                    <div className="w-10 border rounded-full h-10 overflow-hidden">
                         {
                             selectedUser && selectedUser.profilePhoto ? (
                                 <img src={selectedUser.profilePhoto} alt="img" />

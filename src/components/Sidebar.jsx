@@ -14,7 +14,7 @@ const Sidebar = () => {
     const navigate = useNavigate();
     const [search, setSearch] = useState("");
     const [displayedUsers, setDisplayedUsers] = useState([]);
-    const [showSettings, setShowSettings] = useState(true);
+    const [showSettings, setShowSettings] = useState(false);
 
     const { otherUsers } = useSelector(store => store.user);
     const dispatch = useDispatch();
@@ -98,7 +98,7 @@ const Sidebar = () => {
                 <button onClick={logOutHandler} className="cursor-pointer text-2xl text-zinc-500" title="LogOut">
                     <CiLogout />
                 </button>
-                <button onClick={() => setShowSettings(!showSettings)} className={` ${showSettings?' -rotate-90':''} transition duration-75 cursor-pointer text-2xl text-zinc-500` } title="Setting" ><LuSettings /></button>
+                <button onClick={() => setShowSettings(!showSettings)} className={` ${showSettings ? ' -rotate-90' : ''} transition duration-75 cursor-pointer text-2xl text-zinc-500`} title="Setting" ><LuSettings /></button>
             </div>
             <div
                 className={`absolute inset-0 bg-white z-50 transition-transform duration-300 
