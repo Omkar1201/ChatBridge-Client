@@ -5,7 +5,6 @@ import { FaUser } from "react-icons/fa6";
 
 const Messagecontainer = () => {
     const { selectedUser, onlineUsers } = useSelector(store => store.user);
-    console.log(selectedUser);
 
     return (
         <div className="h-screen w-screen border-black flex flex-col">

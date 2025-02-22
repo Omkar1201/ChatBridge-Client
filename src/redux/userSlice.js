@@ -26,7 +26,7 @@ const userSlice = createSlice({
             // if (userIndex !== -1) {
             //     state.otherUsers[userIndex].lastSeen = lastSeen;
             // }
-            if (state.selectedUser && state.selectedUser.userId === userId) {
+            if (state.selectedUser && state.selectedUser._id === userId) {
                 state.selectedUser.lastSeen = lastSeen;
             }
         },
