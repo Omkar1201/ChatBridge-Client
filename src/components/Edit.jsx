@@ -17,6 +17,7 @@ const Edit = () => {
     const [isUsernameFocused, setIsUsernameFocused] = useState(false);
     const [isfullNameFocused, setIsfullNameFocused] = useState(false);
     const [isBioFocused, setIsBioFocused] = useState(false);
+    const [isContentSame,setIscontentSame] = useState(false)
 
     const [selectedFile, setSelectedFile] = useState(null);
     const [previewUrl, setPreviewUrl] = useState(authUser?.profilePhoto || "");
@@ -42,6 +43,11 @@ const Edit = () => {
         return () => URL.revokeObjectURL(objectUrl);
         // eslint-disable-next-line
     }, [selectedFile]);
+
+    useEffect(()=>{
+        setIscontentSame(username===authUser?.username && fullName===authUser?.fullName && bio===authUser?.bio && previewUrl===authUser?.profilePhoto)
+        // eslint-disable-next-line
+    },[username,fullName,bio,previewUrl])
 
     const handleFileChange = (event) => {
         const file = event.target.files[0];
@@ -82,7 +88,6 @@ const Edit = () => {
                     withCredentials: true,
                 }
             );
-            console.log(responseData);
             dispatch(setAuthUser(responseData.data.updatedUserData))
             toast.success(`${responseData?.data?.message}`);
         } catch (error) {
@@ -188,7 +193,8 @@ const Edit = () => {
                         </button>
                         <button
                             type="submit"
-                            className="bg-blue-500 text-white px-5 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                            className={`bg-blue-500 ${isContentSame ? 'opacity-50' :'hover:bg-blue-600'} text-white px-5 py-2 rounded-md transition duration-[0.2s] focus:outline-none focus:ring-2 focus:ring-blue-300`}
+                            disabled={isContentSame}
                         >
                             Edit
                         </button>

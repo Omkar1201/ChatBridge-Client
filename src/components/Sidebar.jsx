@@ -107,6 +107,7 @@ const Sidebar = () => {
                 <button
                     onClick={() => setShowSettings(false)}
                     className="absolute top-4 right-4 text-[1.5rem] rounded-full p-2 hover:bg-gray-100 "
+                    title="Close"
                 >
                     <RxCross2 />
                 </button>
