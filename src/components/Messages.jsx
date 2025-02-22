@@ -9,11 +9,15 @@ const Messages = () => {
 
     if (!messages) return
     return (
-        <div className="max-h-[calc(100vh-6.9rem)] px-16 border-black overflow-auto ">
+        <div className="max-h-[calc(100vh-6.9rem)] px-16 h-full border-black overflow-auto ">
             {
-                messages?.map((message, index) => (
+                messages.length > 0 ? messages.map((message, index) => (
                     <Message message={message} key={index} />
-                ))
+                )):(
+                    <div className=" h-full flex items-center justify-center">
+                        No messages
+                    </div>
+                )
             }
         </div>
     )
