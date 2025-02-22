@@ -33,7 +33,7 @@ const Otherusers = () => {
                             <div className={`p-1 rounded-full absolute top-1 right-0 ${onlineUsers?.includes(user._id) ? 'bg-green-500' : ''}`}></div>
                         </div>
                         <div>
-                            {user.username}
+                            {user.fullName}
                         </div>
                     </div>
                 ))
