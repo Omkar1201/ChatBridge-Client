@@ -53,11 +53,14 @@ const Sidebar = () => {
                 }
             );
             dispatch(setAuthUser(null));
-            toast.success(responseData.data.message);
-            navigate('/signin');
-        } catch (error) {
+            toast.success(responseData?.data?.message);
+            setTimeout(() => {
+                navigate('/signin');
+            }, 0);
+        }
+        catch (error) {
             console.error("Error in Logout:", error.response?.data);
-            toast.error(error.response?.data?.message || "Logout failed. Please try again.");
+            toast.error(error.response?.data?.message || "Logout failed.");
         }
     };
 

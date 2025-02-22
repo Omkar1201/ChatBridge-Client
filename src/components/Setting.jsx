@@ -45,7 +45,7 @@ const Setting = () => {
                     </div>
                     <div className="text-[1.2rem] font-semibold">
                         {
-                            authUser.fullName
+                            authUser?.fullName
                         }
                     </div>
 

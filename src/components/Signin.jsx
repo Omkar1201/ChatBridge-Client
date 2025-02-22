@@ -35,7 +35,7 @@ const Signin = () => {
             const { token, success, ...userData } = responseData.data
             dispatch(setAuthUser(userData))
 
-            toast.success(responseData.data.message)
+            toast.success(responseData?.data?.message)
         }
         catch (error) {
             console.error("Error signing in:", error.response?.data);
