@@ -7,18 +7,14 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import io from "socket.io-client"
 import { setSocket } from './redux/socketSlice';
-import { setOnlineUsers } from './redux/userSlice';
+import { setOnlineUsers,updateLastSeen  } from './redux/userSlice';
 
 function App() {
 	const { authUser } = useSelector(store => store.user)
 	const {socket}=useSelector(store=>store.socket)
-	const {messages}=useSelector(store=>store.message)
-	
-	console.log(messages);
 	
 	const dispatch=useDispatch();
-
-
+	
 	useEffect(() => {
 		if (authUser) {
 			const socketio = io(`${process.env.REACT_APP_BASE_URL}`.replace('/api/v1',""),{
@@ -27,8 +23,13 @@ function App() {
 			dispatch(setSocket(socketio))
 
 			socketio?.on("getOnlineUsers",(onlineUsers)=>{
-				console.log(onlineUsers);
+				console.log("onlineusers",onlineUsers);
 				dispatch(setOnlineUsers(onlineUsers))
+			})
+
+			socketio?.on('lastseen',({userId,lastSeen})=>{
+				console.log(userId,lastSeen);
+				dispatch(updateLastSeen({ userId, lastSeen }));
 			})
 			return()=>socketio.close()
 		}

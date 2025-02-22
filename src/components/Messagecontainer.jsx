@@ -4,7 +4,8 @@ import { useSelector } from "react-redux";
 import { FaUser } from "react-icons/fa6";
 
 const Messagecontainer = () => {
-    const { selectedUser } = useSelector(store => store.user);
+    const { selectedUser, onlineUsers } = useSelector(store => store.user);
+    console.log(selectedUser);
 
     return (
         <div className="h-screen w-screen border-black flex flex-col">
@@ -21,8 +22,36 @@ const Messagecontainer = () => {
                     }
                 </div>
                 <div className="flex flex-col items-start">
-                    <div>{selectedUser ? selectedUser.username : ""}</div>
-                    <div className="text-[0.8rem] text-gray-500">Last seen</div>
+                    {
+                        selectedUser ? (
+                            <>
+                                <div>{selectedUser.username}</div>
+                                {/* <div className={`p-1 rounded-full absolute top-1 right-0 ${onlineUsers?.includes(user._id) ? 'bg-green-500' : ''}`}></div> */}
+                                <div className="text-[0.8rem] text-gray-500">
+                                    {
+                                        onlineUsers?.includes(selectedUser._id) ? (
+                                            <div>online</div>
+                                        ) : (
+                                            <>
+                                                last seen&nbsp;
+                                                {
+                                                    new Date(selectedUser.lastSeen).toLocaleString('en-US', {
+                                                        month: 'short',
+                                                        day: 'numeric',
+                                                        hour: '2-digit',
+                                                        minute: '2-digit',
+                                                        hourCycle: 'h23'
+                                                    })
+                                                }
+                                            </>
+                                        )
+                                    }
+                                </div>
+                            </>
+                        ) : (
+                            <></>
+                        )
+                    }
                 </div>
             </div>
 
