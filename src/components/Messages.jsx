@@ -3,6 +3,7 @@ import useGetMessages from "../hooks/useGetMessages";
 import { useSelector } from "react-redux";
 import Message from "./Message";
 import useGetRealTimeMessage from "../hooks/useGetRealTimeMessage";
+import { HiArrowDown } from "react-icons/hi2";
 
 const Messages = () => {
     useGetMessages();
@@ -19,7 +20,7 @@ const Messages = () => {
         const handleScroll = () => {
             const distanceFromBottom = container.scrollHeight - container.scrollTop - container.clientHeight;
 
-            if (distanceFromBottom > 400) {
+            if (distanceFromBottom > 200) {
                 setShowScrollButton(true);
             } else {
                 setShowScrollButton(false);
@@ -61,9 +62,9 @@ const Messages = () => {
             {showScrollButton && (
                 <button
                     onClick={scrollToBottom}
-                    className="fixed bottom-20 right-10 p-3 bg-blue-500 text-white rounded-full shadow-lg"
+                    className="fixed bottom-20 right-10 p-3 bg-white rounded-full shadow-xl border"
                 >
-                    Scroll to bottom
+                    <HiArrowDown/>
                 </button>
             )}
         </div>
