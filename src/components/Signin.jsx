@@ -51,14 +51,13 @@ const Signin = () => {
                         <input type="text" value={username} onChange={(e) => setUsername(e.target.value)}
                             onFocus={() => setIsUsernameFocused(true)}
                             onBlur={() => setIsUsernameFocused(false)}
-                            className="w-full px-3 py-2.5 text-base border border-gray-300 rounded-md focus:border-2 focus:border-blue-500 focus:outline-none"
+                            className="w-full transition duration-[0.2s] px-3 py-2.5 text-base outline-none hover:border-blue-300 border-2 border-gray-300 rounded-md focus:border-blue-500"
                             required
                         />
                         <label
-                            className={`absolute left-3 pointer-events-none transition-all duration-300 ${username || isUsernameFocused
-                                ? '-top-2 left-2 text-blue-500 text-xs bg-white px-2'
-                                : 'top-[0.55rem] text-gray-500'
-                                }`}
+                            className={`absolute left-3 pointer-events-none transition-all duration-300 
+                            ${username ? "-top-2 left-2 text-xs bg-white px-2" : "top-[0.55rem]"} 
+                            ${isUsernameFocused ? "text-blue-500" : "text-gray-500"} `}
                         >
                             Username
                         </label>
@@ -68,13 +67,12 @@ const Signin = () => {
                         <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required
                             onFocus={() => setIsPasswordFocused(true)}
                             onBlur={() => setIsPasswordFocused(false)}
-                            className="w-full px-3 py-2.5 text-base border border-gray-300 rounded-md focus:border-2 focus:border-blue-500 focus:outline-none"
+                            className="w-full transition duration-[0.2s] px-3 py-2.5 text-base outline-none hover:border-blue-300 border-2 border-gray-300 rounded-md focus:border-blue-500"
                         />
                         <label
-                            className={`absolute left-3 pointer-events-none transition-all duration-300 ${password || isPasswordFocused
-                                ? '-top-2 left-2 text-blue-500 text-xs bg-white px-2'
-                                : 'top-[0.55rem] text-gray-500'
-                                }`}
+                            className={`absolute left-3 pointer-events-none transition-all duration-300 
+                            ${password ? "-top-2 left-2 text-xs bg-white px-2" : "top-[0.55rem]"} 
+                            ${isPasswordFocused ? "text-blue-500" : "text-gray-500"} `}
                         >
                             Password
                         </label>

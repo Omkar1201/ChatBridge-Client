@@ -68,7 +68,7 @@ const Signup = () => {
                         <label
                             className={`absolute left-3 pointer-events-none transition-all duration-300 
                             ${userData.fullName ? "-top-2 left-2 text-xs bg-white px-2" : "top-[0.55rem]"} 
-                            ${isFocused.fullName ? "text-blue-500" : ""} text-gray-500`}
+                            ${isFocused.fullName ? "text-blue-500" : "text-gray-500"}`}
                         >
                             Fullname
                         </label>
@@ -84,7 +84,7 @@ const Signup = () => {
                         <label
                             className={`absolute left-3 pointer-events-none transition-all duration-300 
                             ${userData.username ? "-top-2 left-2 text-xs bg-white px-2" : "top-[0.55rem]"} 
-                            ${isFocused.username ? "text-blue-500" : ""} text-gray-500`}
+                            ${isFocused.username ? "text-blue-500" : "text-gray-500"} `}
                         >
                             Username
                         </label>
@@ -100,7 +100,7 @@ const Signup = () => {
                         <label
                             className={`absolute left-3 pointer-events-none transition-all duration-300 
                             ${userData.email ? "-top-2 left-2 text-xs bg-white px-2" : "top-[0.55rem]"} 
-                            ${isFocused.email ? "text-blue-500" : ""} text-gray-500`}
+                            ${isFocused.email ? "text-blue-500" : "text-gray-500"} `}
                         >
                             Email
                         </label>
@@ -114,9 +114,9 @@ const Signup = () => {
                             className="w-full transition duration-[0.2s] px-3 py-2.5 text-base outline-none hover:border-blue-300 border-2 border-gray-300 rounded-md focus:border-blue-500"
                         />
                         <label
-                            className={`absolute left-3 pointer-events-none transition-all duration-300 
+                            className={`absolute left-3 pointer-events-none focus focus:text-blue-500 transition-all duration-300 
                             ${userData.password ? "-top-2 left-2 text-xs bg-white px-2" : "top-[0.55rem]"} 
-                            ${isFocused.password ? "text-blue-500" : ""} text-gray-500`}
+                            ${isFocused.password ? "text-blue-500" : "text-gray-500"} `}
                         >
                             Password
                         </label>
@@ -133,7 +133,7 @@ const Signup = () => {
                         <label
                             className={`absolute left-3 pointer-events-none transition-all duration-300 
                             ${userData.confirmPassword ? "-top-2 left-2 text-xs bg-white px-2" : "top-[0.55rem]"} 
-                            ${isFocused.confirmPassword ? "text-blue-500" : ""} text-gray-500`}
+                            ${isFocused.confirmPassword ? "text-blue-500" : "text-gray-500"} `}
                         >
                             ConfirmPassword
                         </label>
