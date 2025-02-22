@@ -46,7 +46,7 @@ const Signin = () => {
         <div className="bg-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 p-10 border border-gray-300 rounded-lg">
             <form onSubmit={handleSignin} className="">
                 <div className="relative mb-8">
-                    <input type="username" value={username} onChange={(e) => setUsername(e.target.value)}
+                    <input type="text" value={username} onChange={(e) => setUsername(e.target.value)}
                         onFocus={() => setIsUsernameFocused(true)}
                         onBlur={() => setIsUsernameFocused(false)}
                         className="w-full px-3 py-2.5 text-base border border-gray-300 rounded-md focus:border-2 focus:border-blue-500 focus:outline-none"
