@@ -22,11 +22,11 @@ const useGetMessages = () => {
                         withCredentials: true, 
                     }
                 )
-                dispatch(setMessages(responseData.data.message))
-                // console.log(responseData.data.message);
+                dispatch(setMessages(responseData.data.messages))
+                console.log(responseData.data.messages);
             }
             catch (error) {
-                console.log(error);
+                console.log(error.response?.data.message);
                 toast.error(error.response?.data.message)
             }
         }
