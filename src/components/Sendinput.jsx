@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import toast from 'react-hot-toast';
-import { setMessages } from "../redux/messageSlice";
+import { addOrUpdateConversation } from "../redux/messageSlice";
 import { VscSend } from "react-icons/vsc";
 
 const Sendinput = () => {
@@ -36,8 +36,7 @@ const Sendinput = () => {
                     withCredentials: true,
                 }
             );
-            
-            dispatch(setMessages([...messages, responseData?.data?.newMessage]));
+            dispatch(addOrUpdateConversation(responseData?.data?.gotConversation));    
         } catch (error) {
             console.error("Error in sending message:", error.response?.data);
             toast.error(error.response?.data.message);

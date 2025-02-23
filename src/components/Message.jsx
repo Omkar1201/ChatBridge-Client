@@ -12,7 +12,7 @@ const Message = ({ message }) => {
     const timeString = new Date(timestamp).toLocaleTimeString('en-GB', options);
 
     useEffect(() => {
-        scroll.current?.scrollIntoView({ behavior: "smooth" })
+        scroll.current?.scrollIntoView({ behavior: "auto" })
     }, [message])
 
     return (
