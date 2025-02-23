@@ -19,8 +19,7 @@ const useGetOtherUsers = () => {
                         withCredentials: true, //Required to send/receive cookies
                     }
                 )
-                dispatch(setOtherUsers(responseData.data.otherUsers))
-                // console.log(responseData);
+                dispatch(setOtherUsers(responseData.data?.otherUsers))
             }
             catch (error) {
                 toast.error(error.response?.data.message)

@@ -33,7 +33,6 @@ const Signin = () => {
                 }
             )
 
-            console.log(responseData);
             navigate('/')
             const { token, success, ...userData } = responseData.data
             dispatch(setAuthUser(userData))

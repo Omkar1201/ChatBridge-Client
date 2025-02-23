@@ -36,7 +36,6 @@ const Sendinput = () => {
                     withCredentials: true,
                 }
             );
-            console.log("messagedata ",responseData);
             
             dispatch(setMessages([...messages, responseData?.data?.newMessage]));
         } catch (error) {
