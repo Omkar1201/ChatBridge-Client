@@ -4,6 +4,8 @@ import toast from 'react-hot-toast';
 import { useDispatch } from "react-redux";
 import { setAuthUser } from "../redux/userSlice";
 import { Link, useNavigate } from "react-router-dom";
+import { IoEyeOffOutline } from "react-icons/io5";
+import { IoEyeOutline } from "react-icons/io5";
 
 
 const Signin = () => {
@@ -11,6 +13,7 @@ const Signin = () => {
     const [password, setPassword] = useState("");
     const [isUsernameFocused, setIsUsernameFocused] = useState(false);
     const [isPasswordFocused, setIsPasswordFocused] = useState(false);
+    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -64,18 +67,29 @@ const Signin = () => {
                     </div>
 
                     <div className="relative">
-                        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required
+                        <input type={`${isPasswordVisible ? 'text' : 'password'}`} value={password} onChange={(e) => setPassword(e.target.value)} required
                             onFocus={() => setIsPasswordFocused(true)}
                             onBlur={() => setIsPasswordFocused(false)}
                             className="w-full transition duration-[0.2s] px-3 py-2.5 text-base outline-none hover:border-blue-300 border-2 border-gray-300 rounded-md focus:border-blue-500"
+                            maxLength={15}
                         />
                         <label
-                            className={`absolute left-3 pointer-events-none transition-all duration-300 
+                            className={`absolute flex left-3 pointer-events-none transition-all duration-300 
                             ${password ? "-top-2 left-2 text-xs bg-white px-2" : "top-[0.55rem]"} 
                             ${isPasswordFocused ? "text-blue-500" : "text-gray-500"} `}
                         >
                             Password
                         </label>
+                        <div className={` absolute top-3 right-2 text-[1.4rem] cursor-pointer
+                            ${isPasswordFocused ? 'text-blue-500' : 'text-gray-500'}
+                            ${password ? 'flex' : 'hidden'}`}
+                            onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+                        >
+                            {
+                                isPasswordVisible ?
+                                    <IoEyeOutline /> : <IoEyeOffOutline />
+                            }
+                        </div>
                     </div>
                     <button
                         type="submit"
