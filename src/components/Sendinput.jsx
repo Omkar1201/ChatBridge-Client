@@ -52,7 +52,7 @@ const Sendinput = () => {
     };
 
     return (
-        <div className="absolute bottom-0 w-full border border-black bg-white z-10">
+        <div className="absolute bottom-0 w-full border-r border-b border-t bg-white z-10">
             <form onSubmit={messageSubmitHandler} className="flex items-center px-2 py-1">
                 <textarea
                     ref={textareaRef}

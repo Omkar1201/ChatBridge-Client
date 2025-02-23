@@ -71,7 +71,7 @@ const Sidebar = () => {
     };
 
     return (
-        <div className="flex relative overflow-hidden flex-col h-screen w-[35rem] border-black px-4 pt-2">
+        <div className="flex relative overflow-hidden flex-col h-screen w-[35rem] border-r px-4 pt-2">
             <form onSubmit={(e) => e.preventDefault()} className="flex items-center px-2 justify-between rounded-2xl mx-4 border border-zinc-300">
                 <div className="cursor-text text-2xl text-zinc-400">
                     <CiSearch />
@@ -104,10 +104,12 @@ const Sidebar = () => {
             </div>
 
             <div className="text-start h-[4rem] flex items-center justify-between px-4 ">
-                <button onClick={logOutHandler} className="cursor-pointer text-2xl text-zinc-500" title="LogOut">
+                <button onClick={logOutHandler} className="hover:bg-gray-100 p-2 rounded-full cursor-pointer text-2xl text-zinc-500" title="LogOut">
                     <CiLogout />
                 </button>
-                <button onClick={() => setShowSettings(!showSettings)} className={` ${showSettings ? ' -rotate-90' : ''} transition duration-75 cursor-pointer text-2xl text-zinc-500`} title="Setting" ><LuSettings /></button>
+                <button onClick={() => setShowSettings(!showSettings)} className={` ${showSettings ? ' -rotate-90' : ''} transition duration-75 cursor-pointer text-2xl text-zinc-500 hover:bg-gray-100 p-2 rounded-full`} title="Setting" >
+                    <LuSettings />
+                </button>
             </div>
             <div
                 className={`absolute inset-0 bg-white z-50 transition-transform duration-300 
