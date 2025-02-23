@@ -1,11 +1,13 @@
 import axios from "axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Signup = () => {
     const [userData, setUserData] = useState({ fullName: "", username: "", email: "", password: "", confirmPassword: "" });
     const [isFocused, setIsFocused] = useState({ fullName: false, username: false, email: false, password: false, confirmPassword: false })
+
+    const navigate=useNavigate()
 
     const handleFocuse = (event) => {
         setIsFocused({
@@ -31,7 +33,7 @@ const Signup = () => {
     const handleSignUp = async (event) => {
         event.preventDefault();
         if (userData.password !== userData.confirmPassword) {
-            alert("Password does not match");
+            toast.error("Password does not match");
             return;
         }
         try {
@@ -44,6 +46,9 @@ const Signup = () => {
                     }
                 }
             )
+            setTimeout(() => {
+                navigate('/signin');
+            }, 0);
             toast.success(responseData.data.message)
         }
         catch (error) {
