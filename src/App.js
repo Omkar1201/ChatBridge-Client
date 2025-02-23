@@ -1,52 +1,44 @@
-import Signin from './components/Signin';
-import './App.css';
+import { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useSocket } from './context/SocketContext';
+import { setOnlineUsers, updateLastSeen } from './redux/userSlice';
+import Signin from './components/Signin';
 import Signup from './components/Signup';
 import Home from './components/Home';
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import io from "socket.io-client"
-import { setSocket } from './redux/socketSlice';
-import { setOnlineUsers,updateLastSeen  } from './redux/userSlice';
+import './App.css';
 
 function App() {
-	const { authUser } = useSelector(store => store.user)
-	const {socket}=useSelector(store=>store.socket)
-	
-	const dispatch=useDispatch();
-	
+	const { authUser } = useSelector((store) => store.user);
+	const { connectSocket, disconnectSocket } = useSocket();
+	const dispatch = useDispatch();
+
 	useEffect(() => {
 		if (authUser) {
-			const socketio = io(`${process.env.REACT_APP_BASE_URL}`.replace('/api/v1',""),{
-				withCredentials: true,
-			})
-			dispatch(setSocket(socketio))
+			const socket = connectSocket(authUser);
 
-			socketio?.on("getOnlineUsers",(onlineUsers)=>{
-				console.log("onlineusers",onlineUsers);
-				dispatch(setOnlineUsers(onlineUsers))
-			})
+			socket?.on('getOnlineUsers', (onlineUsers) => {
+				dispatch(setOnlineUsers(onlineUsers));
+			});
 
-			socketio?.on('lastseen',({userId,lastSeen})=>{
+			socket?.on('lastseen', ({ userId, lastSeen }) => {
 				dispatch(updateLastSeen({ userId, lastSeen }));
-			})
-			return()=>socketio.close()
+			});
+
+			return () => {
+				socket?.off('getOnlineUsers');
+				socket?.off('lastseen');
+				disconnectSocket();
+			};
 		}
-		else{
-			if(socket){
-				socket.close()
-				dispatch(setSocket(null))
-			}
-		}
-		// eslint-disable-next-line
-	}, [authUser])
+	}, [authUser, connectSocket, disconnectSocket, dispatch]);
 
 	return (
 		<div className="App">
 			<Routes>
-				<Route path='/' element={<Home />}></Route>
-				<Route path='/signin' element={<Signin />} ></Route>
-				<Route path='/signup' element={<Signup />} ></Route>
+				<Route path="/" element={<Home />} />
+				<Route path="/signin" element={<Signin />} />
+				<Route path="/signup" element={<Signup />} />
 			</Routes>
 		</div>
 	);

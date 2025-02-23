@@ -1,37 +1,41 @@
-import axios from "axios"
-import { useEffect } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import toast from "react-hot-toast"
-import { setMessages } from "../redux/messageSlice"
+import { useEffect } from 'react';
+import axios from 'axios';
+import toast from 'react-hot-toast';
+import { useDispatch, useSelector } from 'react-redux';
+import { setMessages } from '../redux/messageSlice';
+import { useSocket } from '../context/SocketContext';
 
 const useGetMessages = () => {
-    const { selectedUser } = useSelector(store => store.user)
-    
-    const dispatch=useDispatch()
+    const { selectedUser } = useSelector((store) => store.user);
+    const dispatch = useDispatch();
+    const { getSocket } = useSocket();
+
     useEffect(() => {
-        if (!selectedUser?._id) return;
-
         const fetchMessages = async () => {
+            if (!selectedUser?._id) return;
             try {
-                const responseData = await axios.get(
+                const response = await axios.get(
                     `${process.env.REACT_APP_BASE_URL}/message/${selectedUser?._id}`,
-                    {
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        withCredentials: true, 
-                    }
-                )
-                dispatch(setMessages(responseData.data?.messages))
+                    { withCredentials: true }
+                );
+                dispatch(setMessages(response.data?.messages));
+            } catch (error) {
+                toast.error(error.response?.data.message);
             }
-            catch (error) {
-                console.log(error.response?.data.message);
-                toast.error(error.response?.data.message)
-            }
-        }
-        fetchMessages()
-        // eslint-disable-next-line
-    }, [selectedUser])
-}
+        };
 
-export default useGetMessages
+        fetchMessages();
+
+        const socket = getSocket();
+        const handleNewMessage = (newMessage) => {
+            // Handle new messages if needed
+        };
+
+        socket?.on('newMessage', handleNewMessage);
+        return () => {
+            socket?.off('newMessage', handleNewMessage);
+        };
+    }, [selectedUser, dispatch, getSocket]);
+};
+
+export default useGetMessages;
