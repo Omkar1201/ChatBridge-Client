@@ -28,7 +28,6 @@ function App() {
 			})
 
 			socketio?.on('lastseen',({userId,lastSeen})=>{
-				console.log(userId,lastSeen);
 				dispatch(updateLastSeen({ userId, lastSeen }));
 			})
 			return()=>socketio.close()
