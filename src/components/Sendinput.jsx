@@ -36,7 +36,9 @@ const Sendinput = () => {
                     withCredentials: true,
                 }
             );
-            dispatch(setMessages([...messages, responseData?.data?.message]));
+            console.log("messagedata ",responseData);
+            
+            dispatch(setMessages([...messages, responseData?.data?.newMessage]));
         } catch (error) {
             console.error("Error in sending message:", error.response?.data);
             toast.error(error.response?.data.message);

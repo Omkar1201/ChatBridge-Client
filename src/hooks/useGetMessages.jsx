@@ -22,8 +22,8 @@ const useGetMessages = () => {
                         withCredentials: true, 
                     }
                 )
-                dispatch(setMessages(responseData.data.messages))
-                console.log(responseData.data.messages);
+                dispatch(setMessages(responseData.data?.messages))
+                // console.log(responseData.data.messages);
             }
             catch (error) {
                 console.log(error.response?.data.message);

@@ -12,7 +12,7 @@ const Messages = () => {
     const containerRef = useRef(null);
     const [showScrollButton, setShowScrollButton] = useState(false);
     const { messages } = useSelector((store) => store.message);
-
+    
     const handleScroll = () => {
         const container = containerRef.current;
         if (!container) return;
@@ -69,7 +69,7 @@ const Messages = () => {
         }
     };
 
-    const groupedMessages = messages.reduce((groups, message) => {
+    const groupedMessages = messages?.reduce((groups, message) => {
         const dateKey = new Date(message.createdAt).toLocaleDateString();
         if (!groups[dateKey]) {
             groups[dateKey] = [];

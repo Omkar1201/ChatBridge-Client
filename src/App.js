@@ -12,7 +12,6 @@ import { setOnlineUsers,updateLastSeen  } from './redux/userSlice';
 function App() {
 	const { authUser } = useSelector(store => store.user)
 	const {socket}=useSelector(store=>store.socket)
-	console.log(authUser);
 	
 	const dispatch=useDispatch();
 	

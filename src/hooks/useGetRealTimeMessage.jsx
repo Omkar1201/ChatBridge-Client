@@ -6,8 +6,12 @@ const useGetRealTimeMessage=()=>{
     const{socket}=useSelector(store=>store.socket);
     const{messages}=useSelector(store=>store.message);
     const dispatch=useDispatch();
+    console.log("allmessage",messages);
+    
     useEffect(()=>{
-        socket?.on("newMessage",(newMessage)=>{            
+        socket?.on("newMessage",(newMessage)=>{   
+            console.log(newMessage);
+                     
             dispatch(setMessages([...messages,newMessage]))
         })
         // eslint-disable-next-line

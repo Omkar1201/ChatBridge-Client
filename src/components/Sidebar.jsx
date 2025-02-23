@@ -58,7 +58,7 @@ const Sidebar = () => {
             dispatch(setSelectedUser(null));
             dispatch(setOtherUsers(null));
             dispatch(setOnlineUsers(null));
-            dispatch(setMessages(null));
+            dispatch(setMessages([]));
             toast.success(responseData?.data?.message);
             setTimeout(() => {
                 navigate('/signin');
