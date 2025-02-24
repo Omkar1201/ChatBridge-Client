@@ -4,7 +4,8 @@ import { FaUser } from "react-icons/fa6";
 const Otherusers = ({ otherUsers, search }) => {
     const dispatch = useDispatch();
 
-    const { selectedUser, onlineUsers } = useSelector(store => store.user);
+    const { selectedUser, onlineUsers, authUser } = useSelector(store => store.user);
+    const { allConversations } = useSelector((store) => store.conversation);
 
     if (!otherUsers) return;
 
@@ -23,12 +24,22 @@ const Otherusers = ({ otherUsers, search }) => {
         dispatch(setSelectedUser(user));
     };
 
+    const getLastMessage = (user) => {
+        const userId = user._id
+        const conversation = allConversations.find(convo =>
+            convo.participants.includes(authUser._id) && convo.participants.includes(userId)
+        );
+        if (!conversation || conversation.messages.length === 0) return user.bio;
+        const lastMessage = conversation.messages[conversation.messages.length - 1];
+        return lastMessage.message.length > 20 ? lastMessage.message.substring(0, 20) + "..." : lastMessage.message;
+    };
+
     return (
         <div className="py-4 flex flex-col gap-1">
             {
                 otherUsers?.map((user, index) => (
                     <div
-                        className={`${user._id === selectedUser?._id ? 'bg-zinc-200' : 'hover:bg-zinc-100'} relative rounded-lg cursor-pointer flex items-center gap-2 py-[0.7rem] px-2`}
+                        className={`${user._id === selectedUser?._id ? 'bg-zinc-200' : 'hover:bg-zinc-100'} relative rounded-lg cursor-pointer flex items-center gap-3 h-[4rem] py-2 px-2`}
                         key={index}
                         onClick={() => selectedUserHandler(user)}
                     >
@@ -42,8 +53,15 @@ const Otherusers = ({ otherUsers, search }) => {
                             )}
                         </div>
                         <div className={`p-1 rounded-full absolute top-4 left-10 ${onlineUsers?.includes(user._id) ? 'bg-green-500' : ''}`}></div>
-                        <div>
-                            {highlightText(user.fullName, search)}
+                        <div className="flex flex-col h-full justify-center">
+                            <div className="">
+                                {highlightText(user.fullName, search)}
+                            </div>
+                            <div className="text-[0.8rem] text-gray-600">
+                                {
+                                    getLastMessage(user)
+                                }
+                            </div>
                         </div>
                     </div>
                 ))}
