@@ -13,11 +13,12 @@ const Messages = () => {
 
     useEffect(() => {
         const conversation = allConversations?.find((conv) =>
-            conv?.participants?.includes(authUser.user_id) &&
-            conv?.participants?.includes(selectedUser._id)
+            conv?.participants?.includes(authUser?._id) &&
+            conv?.participants?.includes(selectedUser?._id)
         );
         setSelectedUserConversation(conversation?.messages || []);
-    }, [selectedUser, allConversations]);
+        // eslint-disable-next-line
+    }, [selectedUser, allConversations,authUser?._id]);
 
     return (
         <div className="relative">

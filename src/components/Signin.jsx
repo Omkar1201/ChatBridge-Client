@@ -34,9 +34,9 @@ const Signin = () => {
             )
 
             navigate('/')
-            const { token, success, ...userData } = responseData.data
+            const { token,message, success, ...userData } = responseData.data.userData
             dispatch(setAuthUser(userData))
-
+            
             toast.success(responseData?.data?.message)
         }
         catch (error) {

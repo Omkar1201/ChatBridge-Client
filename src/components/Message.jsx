@@ -17,8 +17,8 @@ const Message = ({ message }) => {
 
     return (
         <>
-            <div ref={scroll} className={` flex ${authUser?.user_id === message?.senderId ? 'justify-end chat-end' : 'justify-start chat-start'} chat`}>
-                <div className={`chat-bubble break-words max-w-[20rem] ${authUser?.user_id === message?.senderId ? '' : 'chat-bubble-primary border'}`}>
+            <div ref={scroll} className={` flex ${authUser?._id === message?.senderId ? 'justify-end chat-end' : 'justify-start chat-start'} chat`}>
+                <div className={`chat-bubble break-words max-w-[20rem] ${authUser?._id === message?.senderId ? '' : 'chat-bubble-primary border'}`}>
                     {message.message}
                     <div className={`text-[0.7rem] mx-2 w-full text-right`} >
                         {timeString}

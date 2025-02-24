@@ -17,7 +17,9 @@ const Edit = () => {
     const [isUsernameFocused, setIsUsernameFocused] = useState(false);
     const [isfullNameFocused, setIsfullNameFocused] = useState(false);
     const [isBioFocused, setIsBioFocused] = useState(false);
-    const [isContentSame, setIscontentSame] = useState(false)
+    const [hasChanges, setHasChanges] = useState(false);
+
+    const [isLoading, setIsLoading] = useState(false);
 
     const [selectedFile, setSelectedFile] = useState(null);
     const [previewUrl, setPreviewUrl] = useState(authUser?.profilePhoto || "");
@@ -45,9 +47,13 @@ const Edit = () => {
     }, [selectedFile]);
 
     useEffect(() => {
-        setIscontentSame(username === authUser?.username && fullName === authUser?.fullName && bio === authUser?.bio && previewUrl === authUser?.profilePhoto)
-        // eslint-disable-next-line
-    }, [username, fullName, bio, previewUrl])
+        const hasUsernameChanged = username !== authUser?.username;
+        const hasFullNameChanged = fullName !== authUser?.fullName;
+        const hasBioChanged = bio !== authUser?.bio;
+        const hasImageChanged = previewUrl !== authUser?.profilePhoto;
+
+        setHasChanges(hasUsernameChanged || hasFullNameChanged || hasBioChanged || hasImageChanged);
+    }, [username, fullName, bio, previewUrl, authUser]);
 
     const handleFileChange = (event) => {
         const file = event.target.files[0];
@@ -58,23 +64,25 @@ const Edit = () => {
         }
     };
 
-    const handleCancelEdit = (event) => {
-        event.preventDefault();
-        setUsername(authUser?.username || "");
-        setBio(authUser?.bio || "");
-        setfullName(authUser?.fullName || "");
+    const handleCancel = (e) => {
+        e.preventDefault();
+        setUsername(authUser?.username ?? "");
+        setfullName(authUser?.fullName ?? "");
+        setBio(authUser?.bio ?? "");
         setSelectedFile(null);
     };
 
     const handleEdit = async (event) => {
         event.preventDefault();
+        if (!hasChanges || isLoading) return;
 
+        setIsLoading(true);
         const payload = {
             fullName,
             username,
             email: authUser?.email,
             bio,
-            profilePhoto: base64Image, // sending base64 string
+            profilePhoto: base64Image || authUser?.profilePhoto // sending base64 string
         };
 
         try {
@@ -88,14 +96,18 @@ const Edit = () => {
                     withCredentials: true,
                 }
             );
-            
+
             dispatch(setAuthUser(responseData?.data?.updatedUserData))
+
             toast.success(`${responseData?.data?.message}`);
         } catch (error) {
             console.error("Error updating profile:", error.response?.data);
             toast.error(
                 error.response?.data?.message || "Profile update failed. Please try again."
             );
+        }
+        finally {
+            setIsLoading(false);
         }
     };
 
@@ -186,17 +198,18 @@ const Edit = () => {
 
                     <div className="flex justify-between border-black">
                         <button
-                            onClick={handleCancelEdit}
-                            className="bg-blue-500 text-white px-5 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                            onClick={handleCancel}
+                            className="bg-blue-500 text-white px-5 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300 disabled:opacity-50"
+                            disabled={!hasChanges || isLoading}
                         >
                             Cancel
                         </button>
                         <button
                             type="submit"
-                            className={`bg-blue-500 ${isContentSame ? 'opacity-50' : 'hover:bg-blue-600'} text-white px-5 py-2 rounded-md transition duration-[0.2s] focus:outline-none focus:ring-2 focus:ring-blue-300`}
-                            disabled={isContentSame}
+                            className={`bg-blue-500 ${!hasChanges ? 'opacity-50' : 'hover:bg-blue-600'} text-white px-5 py-2 rounded-md transition duration-[0.2s] focus:outline-none focus:ring-2 focus:ring-blue-300`}
+                            disabled={!hasChanges || isLoading}
                         >
-                            Edit
+                            {isLoading ? "Saving..." : "Save Changes"}
                         </button>
                     </div>
                 </form>
