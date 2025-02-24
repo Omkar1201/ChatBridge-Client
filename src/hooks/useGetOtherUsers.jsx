@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 const useGetOtherUsers = () => {
     const dispatch = useDispatch();
-    const navigate=useNavigate()
+    const navigate = useNavigate()
     useEffect(() => {
         const fetchOtherUsers = async () => {
             dispatch(setIsLoading(true));
@@ -19,10 +19,12 @@ const useGetOtherUsers = () => {
                 );
                 dispatch(setOtherUsers(response.data?.otherUsers));
             } catch (error) {
-                navigate('/signin')
+                if (error.response?.data?.message === 'Please Login, Token not Found') {
+                    navigate('/signin')
+                }
                 toast.error(error.response?.data.message);
             }
-            finally{
+            finally {
                 dispatch(setIsLoading(false));
             }
         };
