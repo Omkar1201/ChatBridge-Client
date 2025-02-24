@@ -9,7 +9,7 @@ import { setAuthUser, setOnlineUsers, setOtherUsers, setSelectedUser } from "../
 import { RxCross2 } from "react-icons/rx";
 import Setting from "./Setting";
 import { LuSettings } from "react-icons/lu";
-import { setMessages } from "../redux/messageSlice";
+import { setAllConversations, setMessages } from "../redux/conversationSlice";
 
 const Sidebar = () => {
     const navigate = useNavigate();
@@ -57,8 +57,8 @@ const Sidebar = () => {
             dispatch(setAuthUser(null));
             dispatch(setSelectedUser(null));
             dispatch(setOtherUsers(null));
-            dispatch(setOnlineUsers(null));
-            dispatch(setMessages([]));
+            dispatch(setOnlineUsers([]));
+            dispatch(setAllConversations([]));
             toast.success(responseData?.data?.message);
             setTimeout(() => {
                 navigate('/signin');

@@ -49,7 +49,7 @@ const Signup = () => {
             setTimeout(() => {
                 navigate('/signin');
             }, 0);
-            toast.success(responseData.data.message)
+            toast.success(responseData?.data?.message)
         }
         catch (error) {
             toast.error(error.response?.data?.message)

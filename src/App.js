@@ -12,7 +12,6 @@ function App() {
 	const { authUser } = useSelector((store) => store.user);
 	const { connectSocket, disconnectSocket } = useSocket();
 	const dispatch = useDispatch();
-// console.log(authUser);
 
 	useEffect(() => {
 		if (authUser) {

@@ -2,20 +2,19 @@ import axios from "axios";
 import { useState, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import toast from 'react-hot-toast';
-import { addOrUpdateConversation } from "../redux/messageSlice";
+import { addOrUpdateConversation } from "../redux/conversationSlice";
 import { VscSend } from "react-icons/vsc";
 
 const Sendinput = () => {
     const [usersMessage, setUsersMessage] = useState("");
     const { selectedUser } = useSelector(store => store.user);
-    const { messages } = useSelector(store => store.message);
     const dispatch = useDispatch();
     const textareaRef = useRef(null);
 
     const adjustTextareaHeight = () => {
         const textarea = textareaRef.current;
         if (textarea) {
-            textarea.style.height = "auto"; 
+            textarea.style.height = "auto";
             textarea.style.height = `${Math.min(textarea.scrollHeight, 200)}px`;
         }
     };
@@ -36,12 +35,12 @@ const Sendinput = () => {
                     withCredentials: true,
                 }
             );
-            dispatch(addOrUpdateConversation(responseData?.data?.gotConversation));    
+            dispatch(addOrUpdateConversation(responseData?.data?.gotConversation));
+            setUsersMessage("");
         } catch (error) {
             console.error("Error in sending message:", error.response?.data);
             toast.error(error.response?.data.message);
         }
-        setUsersMessage("");
     };
 
     const handleKeyDown = (event) => {
@@ -64,7 +63,7 @@ const Sendinput = () => {
                     className="outline-none w-full bg-transparent rounded-md"
                 />
                 <button type="submit" className=" text-[1.5rem]">
-                    <VscSend/>
+                    <VscSend />
                 </button>
             </form>
         </div>

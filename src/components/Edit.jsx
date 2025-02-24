@@ -17,7 +17,7 @@ const Edit = () => {
     const [isUsernameFocused, setIsUsernameFocused] = useState(false);
     const [isfullNameFocused, setIsfullNameFocused] = useState(false);
     const [isBioFocused, setIsBioFocused] = useState(false);
-    const [isContentSame,setIscontentSame] = useState(false)
+    const [isContentSame, setIscontentSame] = useState(false)
 
     const [selectedFile, setSelectedFile] = useState(null);
     const [previewUrl, setPreviewUrl] = useState(authUser?.profilePhoto || "");
@@ -44,10 +44,10 @@ const Edit = () => {
         // eslint-disable-next-line
     }, [selectedFile]);
 
-    useEffect(()=>{
-        setIscontentSame(username===authUser?.username && fullName===authUser?.fullName && bio===authUser?.bio && previewUrl===authUser?.profilePhoto)
+    useEffect(() => {
+        setIscontentSame(username === authUser?.username && fullName === authUser?.fullName && bio === authUser?.bio && previewUrl === authUser?.profilePhoto)
         // eslint-disable-next-line
-    },[username,fullName,bio,previewUrl])
+    }, [username, fullName, bio, previewUrl])
 
     const handleFileChange = (event) => {
         const file = event.target.files[0];
@@ -88,6 +88,7 @@ const Edit = () => {
                     withCredentials: true,
                 }
             );
+            
             dispatch(setAuthUser(responseData?.data?.updatedUserData))
             toast.success(`${responseData?.data?.message}`);
         } catch (error) {
@@ -139,10 +140,9 @@ const Edit = () => {
                             className="w-full transition duration-[0.2s] px-3 py-2.5 text-base outline-none hover:border-blue-300 border-2 border-gray-300 rounded-md focus:border-blue-500"
                         />
                         <label
-                            className={`absolute left-3 pointer-events-none transition-all duration-300 ${fullName
-                                ? "-top-2 left-2 text-xs bg-white px-2"
-                                : "top-[0.55rem]"
-                                } ${isfullNameFocused ? "text-blue-500" : ""} text-gray-500`}
+                            className={`absolute left-3 pointer-events-none transition-all duration-300 
+                            ${fullName ? "-top-2 left-2 text-xs bg-white px-2" : "top-[0.55rem]"} 
+                            ${isfullNameFocused ? "text-blue-500" : "text-gray-500"}`}
                         >
                             Fullname
                         </label>
@@ -158,10 +158,9 @@ const Edit = () => {
                             className="w-full transition duration-[0.2s] px-3 py-2.5 text-base outline-none hover:border-blue-300 border-2 border-gray-300 rounded-md focus:border-blue-500"
                         />
                         <label
-                            className={`absolute left-3 pointer-events-none transition-all duration-300 ${username
-                                ? "-top-2 left-2 text-xs bg-white px-2"
-                                : "top-[0.55rem]"
-                                } ${isUsernameFocused ? "text-blue-500" : ""} text-gray-500`}
+                            className={`absolute left-3 pointer-events-none transition-all duration-300 
+                            ${username ? "-top-2 left-2 text-xs bg-white px-2" : "top-[0.55rem]"} 
+                            ${isUsernameFocused ? "text-blue-500" : "text-gray-500"} `}
                         >
                             Username
                         </label>
@@ -177,8 +176,9 @@ const Edit = () => {
                             className="w-full transition duration-[0.2s] px-3 py-2.5 text-base outline-none hover:border-blue-300 border-2 border-gray-300 rounded-md focus:border-blue-500"
                         />
                         <label
-                            className={`absolute left-3 pointer-events-none transition-all duration-300 ${bio ? "-top-2 left-2 text-xs bg-white px-2" : "top-[0.55rem]"
-                                } ${isBioFocused ? "text-blue-500" : ""} text-gray-500`}
+                            className={`absolute left-3 pointer-events-none transition-all duration-300 
+                            ${bio ? "-top-2 left-2 text-xs bg-white px-2" : "top-[0.55rem]"} 
+                            ${isBioFocused ? "text-blue-500" : "text-gray-500"} `}
                         >
                             Bio
                         </label>
@@ -193,7 +193,7 @@ const Edit = () => {
                         </button>
                         <button
                             type="submit"
-                            className={`bg-blue-500 ${isContentSame ? 'opacity-50' :'hover:bg-blue-600'} text-white px-5 py-2 rounded-md transition duration-[0.2s] focus:outline-none focus:ring-2 focus:ring-blue-300`}
+                            className={`bg-blue-500 ${isContentSame ? 'opacity-50' : 'hover:bg-blue-600'} text-white px-5 py-2 rounded-md transition duration-[0.2s] focus:outline-none focus:ring-2 focus:ring-blue-300`}
                             disabled={isContentSame}
                         >
                             Edit

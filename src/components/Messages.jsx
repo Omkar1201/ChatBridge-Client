@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import useGetMessages from "../hooks/useGetMessages";
 import { useSelector } from "react-redux";
 import Message from "./Message";
 import useGetRealTimeMessage from "../hooks/useGetRealTimeMessage";
@@ -8,7 +7,7 @@ import { HiArrowDown } from "react-icons/hi2";
 const Messages = () => {
     useGetRealTimeMessage();
 
-    const { messages, allConversations } = useSelector((store) => store.message);
+    const { allConversations } = useSelector((store) => store.conversation);
     const { selectedUser, authUser } = useSelector((store) => store.user);
     const [selectedUserConversation, setSelectedUserConversation] = useState([])
 

@@ -1,8 +1,8 @@
 import { useEffect } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { addOrUpdateConversation, setAllConversations, setMessages } from "../redux/messageSlice"
+import { useDispatch } from "react-redux"
+import { addOrUpdateConversation } from "../redux/conversationSlice"
 import { useSocket } from "../context/SocketContext"
-// useGetRealTimeMessage.js
+
 const useGetRealTimeMessage = () => {
     const dispatch = useDispatch();
     const { getSocket } = useSocket();
@@ -14,10 +14,10 @@ const useGetRealTimeMessage = () => {
             dispatch(addOrUpdateConversation(conversation));
         };
 
-        socket?.on("newMessage", handleNewMessage);
+        socket?.on("newOrUpdatedConversation", handleNewMessage);
 
         return () => {
-            socket?.off("newMessage", handleNewMessage);
+            socket?.off("newOrUpdatedConversation", handleNewMessage);
         };
     }, [socket, dispatch]);
 };

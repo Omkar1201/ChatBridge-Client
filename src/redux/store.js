@@ -10,7 +10,7 @@ import {
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import userReducer from "./userSlice.js";
-import messageReducer from "./messageSlice.js";
+import conversationReducer from "./conversationSlice.js";
 
 const persistConfig = {
     key: 'root',
@@ -22,7 +22,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
     user: userReducer,
-    message: messageReducer,
+    conversation: conversationReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

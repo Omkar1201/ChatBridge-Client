@@ -22,10 +22,6 @@ const userSlice = createSlice({
         },
         updateLastSeen(state, action) {
             const { userId, lastSeen } = action.payload;
-            // const userIndex = state.otherUsers.findIndex(user => user.userId === userId);
-            // if (userIndex !== -1) {
-            //     state.otherUsers[userIndex].lastSeen = lastSeen;
-            // }
             if (state.selectedUser && state.selectedUser._id === userId) {
                 state.selectedUser.lastSeen = lastSeen;
             }
