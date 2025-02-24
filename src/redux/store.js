@@ -11,6 +11,7 @@ import {
 import storage from 'redux-persist/lib/storage';
 import userReducer from "./userSlice.js";
 import conversationReducer from "./conversationSlice.js";
+import loadingReducer from "./loadingSlice.js"
 
 const persistConfig = {
     key: 'root',
@@ -23,6 +24,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
     user: userReducer,
     conversation: conversationReducer,
+    loader:loadingReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

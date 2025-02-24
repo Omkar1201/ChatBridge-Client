@@ -10,8 +10,12 @@ import { RxCross2 } from "react-icons/rx";
 import Setting from "./Setting";
 import { LuSettings } from "react-icons/lu";
 import { setAllConversations } from "../redux/conversationSlice";
+import OtherusersSkeleton from "../skeletons/OtherusersSkeleton";
+import { setIsLoading } from "../redux/loadingSlice";
 
 const Sidebar = () => {
+    const { isLoading } = useSelector(store => store.loader)
+
     const navigate = useNavigate();
     const [search, setSearch] = useState("");
     const [displayedUsers, setDisplayedUsers] = useState([]);
@@ -59,6 +63,7 @@ const Sidebar = () => {
             dispatch(setOtherUsers(null));
             dispatch(setOnlineUsers([]));
             dispatch(setAllConversations([]));
+            dispatch(setIsLoading(false))
             toast.success(responseData?.data?.message);
             setTimeout(() => {
                 navigate('/signin');
@@ -71,60 +76,69 @@ const Sidebar = () => {
     };
 
     return (
-        <div className="flex relative overflow-hidden flex-col h-screen w-[35rem] border-r px-4 pt-2">
-            <form onSubmit={(e) => e.preventDefault()} className="flex items-center px-2 justify-between rounded-2xl mx-4 border border-zinc-300">
-                <div className="cursor-text text-2xl text-zinc-400">
-                    <CiSearch />
-                </div>
-                <input
-                    type="text"
-                    placeholder="Search..."
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                    className="h-[2.5rem] w-full px-2 rounded-2xl outline-none"
-                />
-                {search && (
-                    <div
-                        className="cursor-pointer text-2xl text-zinc-500"
-                        onClick={() => setSearch("")}
-                    >
-                        <RxCross2 />
-                    </div>
-                )}
-            </form>
+        <>
+            {
+                isLoading ? (
+                    <OtherusersSkeleton />
+                ) : (<>
+                    <div className="flex relative overflow-hidden flex-col h-screen w-[35rem] border-r px-4 pt-2">
+                        <form onSubmit={(e) => e.preventDefault()} className="flex items-center px-2 justify-between rounded-2xl mx-4 border border-zinc-300">
+                            <div className="cursor-text text-2xl text-zinc-400">
+                                <CiSearch />
+                            </div>
+                            <input
+                                type="text"
+                                placeholder="Search..."
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                                className="h-[2.5rem] w-full px-2 rounded-2xl outline-none"
+                            />
+                            {search && (
+                                <div
+                                    className="cursor-pointer text-2xl text-zinc-500"
+                                    onClick={() => setSearch("")}
+                                >
+                                    <RxCross2 />
+                                </div>
+                            )}
+                        </form>
 
-            <div className="flex-grow overflow-y-auto mt-4 custom-scrollbar">
-                {
-                    displayedUsers?.length > 0 ? (
-                        <Otherusers otherUsers={displayedUsers} search={search} />
-                    ) : (
-                        <div className=" h-full items-center justify-center flex">No result</div>
-                    )
-                }
-            </div>
+                        <div className="flex-grow overflow-y-auto mt-4 custom-scrollbar">
+                            {
+                                displayedUsers?.length > 0 ? (
+                                    <Otherusers otherUsers={displayedUsers} search={search} />
+                                ) : (
+                                    <div className=" h-full items-center justify-center flex">No result</div>
+                                )
+                            }
+                        </div>
 
-            <div className="text-start h-[4rem] flex items-center justify-between px-4 ">
-                <button onClick={logOutHandler} className="hover:bg-gray-100 p-2 rounded-full cursor-pointer text-2xl text-zinc-500" title="LogOut">
-                    <CiLogout />
-                </button>
-                <button onClick={() => setShowSettings(!showSettings)} className={` ${showSettings ? ' -rotate-90' : ''} transition duration-75 cursor-pointer text-2xl text-zinc-500 hover:bg-gray-100 p-2 rounded-full`} title="Setting" >
-                    <LuSettings />
-                </button>
-            </div>
-            <div
-                className={`absolute inset-0 bg-white z-50 transition-transform duration-300 
+                        <div className="text-start h-[4rem] flex items-center justify-between px-4 ">
+                            <button onClick={logOutHandler} className="hover:bg-gray-100 p-2 rounded-full cursor-pointer text-2xl text-zinc-500" title="LogOut">
+                                <CiLogout />
+                            </button>
+                            <button onClick={() => setShowSettings(!showSettings)} className={` ${showSettings ? ' -rotate-90' : ''} transition duration-75 cursor-pointer text-2xl text-zinc-500 hover:bg-gray-100 p-2 rounded-full`} title="Setting" >
+                                <LuSettings />
+                            </button>
+                        </div>
+                        <div
+                            className={`absolute inset-0 bg-white z-50 transition-transform duration-300 
                     ${showSettings ? "translate-x-0" : "translate-x-full"}`}
-            >
-                <button
-                    onClick={() => setShowSettings(false)}
-                    className="absolute top-4 right-4 text-[1.5rem] rounded-full p-2 hover:bg-gray-100 "
-                    title="Close"
-                >
-                    <RxCross2 />
-                </button>
-                <Setting />
-            </div>
-        </div>
+                        >
+                            <button
+                                onClick={() => setShowSettings(false)}
+                                className="absolute top-4 right-4 text-[1.5rem] rounded-full p-2 hover:bg-gray-100 "
+                                title="Close"
+                            >
+                                <RxCross2 />
+                            </button>
+                            <Setting />
+                        </div>
+                    </div>
+                </>)
+
+            }
+        </>
     );
 };
 
