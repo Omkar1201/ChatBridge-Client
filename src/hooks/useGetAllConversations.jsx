@@ -1,11 +1,10 @@
 import { useEffect } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setAllConversations } from '../redux/conversationSlice';
 
 const useGetAllConversations = () => {
-    const { selectedUser } = useSelector((store) => store.user);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -23,7 +22,7 @@ const useGetAllConversations = () => {
         };
 
         fetchConversations();
-
+        // eslint-disable-next-line 
     }, []);
 };
 

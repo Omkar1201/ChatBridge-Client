@@ -6,8 +6,9 @@ import { Link, useNavigate } from "react-router-dom";
 const Signup = () => {
     const [userData, setUserData] = useState({ fullName: "", username: "", email: "", password: "", confirmPassword: "" });
     const [isFocused, setIsFocused] = useState({ fullName: false, username: false, email: false, password: false, confirmPassword: false })
+    const [isLoading, setIsLoading] = useState(false)
 
-    const navigate=useNavigate()
+    const navigate = useNavigate()
 
     const handleFocuse = (event) => {
         setIsFocused({
@@ -36,6 +37,7 @@ const Signup = () => {
             toast.error("Password does not match");
             return;
         }
+        setIsLoading(true);
         try {
             const responseData = await axios.post(
                 `${process.env.REACT_APP_BASE_URL}/user/signup`,
@@ -54,6 +56,9 @@ const Signup = () => {
         catch (error) {
             toast.error(error.response?.data?.message)
             console.error("Error signing in:", error.response?.data || error.message);
+        }
+        finally {
+            setIsLoading(false);
         }
     }
 
@@ -143,7 +148,17 @@ const Signup = () => {
                             ConfirmPassword
                         </label>
                     </div>
-                    <button type="submit" className="border w-full py-2 rounded-md bg-blue-500 text-white font-semibold hover:bg-blue-600 active:bg-blue-500">SignUp</button>
+                    <div className="relative">
+
+                        <button
+                            type="submit"
+                            className={`bg-blue-500  ${isLoading ? 'bg-opacity-40 cursor-not-allowed ' : 'hover:bg-blue-600'} w-full text-white px-5 py-2.5 rounded-md float-right focus:outline-none`}
+                            disabled={isLoading}
+                        >
+                            SignUp
+                        </button>
+                        <div className={`absolute loading loading-ring loading-lg text-blue-800 ${isLoading ? 'block' : 'hidden'} top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 `}></div>
+                    </div>
                 </div>
                 <div className="text-center font-semibold my-2 ">Already have an account?<Link to={'/signin'}><span className="text-blue-500"> Sign in</span></Link> </div>
             </form>

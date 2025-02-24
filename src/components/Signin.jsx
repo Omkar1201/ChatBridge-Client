@@ -14,12 +14,14 @@ const Signin = () => {
     const [isUsernameFocused, setIsUsernameFocused] = useState(false);
     const [isPasswordFocused, setIsPasswordFocused] = useState(false);
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
     const handleSignin = async (event) => {
         event.preventDefault();
+        setIsLoading(true)
         try {
             // axios.defaults.withCredentials=true;
             const responseData = await axios.post(
@@ -34,14 +36,16 @@ const Signin = () => {
             )
 
             navigate('/')
-            const { token,message, success, ...userData } = responseData.data.userData
+            const { token, message, success, ...userData } = responseData.data.userData
             dispatch(setAuthUser(userData))
-            
+
             toast.success(responseData?.data?.message)
         }
         catch (error) {
             console.error("Error signing in:", error.response?.data);
             toast.error(error.response?.data.message)
+        } finally {
+            setIsLoading(false)
         }
     }
     return (
@@ -90,12 +94,16 @@ const Signin = () => {
                             }
                         </div>
                     </div>
-                    <button
-                        type="submit"
-                        className="bg-blue-500 w-full text-white px-5 py-2.5 rounded-md float-right hover:bg-blue-600 focus:outline-none"
-                    >
-                        Sign In
-                    </button>
+                    <div className="relative">
+                        <button
+                            type="submit"
+                            className={`bg-blue-500  ${isLoading?'bg-opacity-40 cursor-not-allowed ':'hover:bg-blue-600'} w-full text-white px-5 py-2.5 rounded-md float-right focus:outline-none`}
+                            disabled={isLoading}
+                        >
+                            Sign In
+                        </button>
+                        <div className={`absolute loading loading-ring loading-lg text-blue-800 ${isLoading ? 'block':'hidden'} top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 `}></div>
+                    </div>
                 </div>
                 <div className="text-center font-semibold my-2 ">Don't have an account?<Link to={'/signup'}><span className="text-blue-500"> Signup</span></Link> </div>
             </form>

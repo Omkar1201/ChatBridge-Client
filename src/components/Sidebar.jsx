@@ -9,7 +9,7 @@ import { setAuthUser, setOnlineUsers, setOtherUsers, setSelectedUser } from "../
 import { RxCross2 } from "react-icons/rx";
 import Setting from "./Setting";
 import { LuSettings } from "react-icons/lu";
-import { setAllConversations, setMessages } from "../redux/conversationSlice";
+import { setAllConversations } from "../redux/conversationSlice";
 
 const Sidebar = () => {
     const navigate = useNavigate();
