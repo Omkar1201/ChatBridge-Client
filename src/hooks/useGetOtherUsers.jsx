@@ -19,10 +19,13 @@ const useGetOtherUsers = () => {
                 );
                 dispatch(setOtherUsers(response.data?.otherUsers));
             } catch (error) {
-                if (error.response?.data?.message === 'Please Login, Token not Found') {
-                    navigate('/signin')
+                if (!error.response) {
+                    toast.error("Please check your internet connection");
+                } else if (error.response.data?.message === 'Please Login, Token not Found') {
+                    navigate('/signin');
+                } else {
+                    toast.error(error.response.data.message);
                 }
-                toast.error(error.response?.data.message);
             }
             finally {
                 dispatch(setIsLoading(false));

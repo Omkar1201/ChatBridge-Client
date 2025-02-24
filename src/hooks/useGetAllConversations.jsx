@@ -17,7 +17,12 @@ const useGetAllConversations = () => {
 
                 dispatch(setAllConversations(responseData.data?.conversations));
             } catch (error) {
-                toast.error(error.response?.data?.message);
+                if (!error.response) {
+                    toast.error("Please check your internet connection");
+                }
+                else {
+                    toast.error(error.response.data?.message);
+                }
             }
         };
 
