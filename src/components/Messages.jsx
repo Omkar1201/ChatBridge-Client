@@ -13,6 +13,7 @@ const Messages = () => {
     const { allConversations } = useSelector((store) => store.conversation);
     const { selectedUser, authUser } = useSelector((store) => store.user);
     const [selectedUserConversation, setSelectedUserConversation] = useState([]);
+    const { isLoading } = useSelector(store => store.loader)
 
     const scrollToBottom = () => {
         if (containerRef.current) {
@@ -48,17 +49,27 @@ const Messages = () => {
             <div
                 ref={containerRef}
                 onScroll={handleScroll}
-                className="max-h-[calc(100vh-6.9rem)] px-16 h-full border-black overflow-auto"
+                className="max-h-[calc(100vh-6.9rem)] relative px-16 h-full border-black overflow-auto"
             >
-                {selectedUserConversation?.length > 0 ? (
-                    selectedUserConversation.map((message) => (
-                        <Message message={message} key={message._id} />
-                    ))
-                ) : (
-                    <p className="text-center text-gray-500 mt-4">
-                        No messages found. Start a conversation!
-                    </p>
-                )}
+                {
+                    isLoading ? (
+                        <div className="flex items-center justify-center h-[calc(100vh-6.9rem)]">
+                            <div className="loading loading-spinner loading-lg text-secondary">
+                            </div>
+                        </div>
+                    ) :
+                        (
+                            selectedUserConversation?.length > 0 ? (
+                                selectedUserConversation.map((message) => (
+                                    <Message message={message} key={message._id} />
+                                ))
+                            ) : (
+                                <p className="text-center text-gray-500 mt-4">
+                                    No messages found. Start a conversation!
+                                </p>
+                            )
+                        )
+                }
             </div>
 
             {showScrollButton && (

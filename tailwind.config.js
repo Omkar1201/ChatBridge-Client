@@ -13,7 +13,7 @@ module.exports = {
       {
         mytheme: {              // custom theme name
           "primary": "#FFFFFF", // set primary color to red
-          "secondary": "#00FF00",
+          "secondary": "#6e6e6e",
           "accent": "#37cdbe",
           "neutral": "#3d4451",
           "base-100": "#ffffff",
