@@ -30,7 +30,7 @@ const Setting = () => {
                         <MdEdit />
                     </div>
                 </div>
-                <div className=" flex flex-col gap-2 items-center justify-center">
+                <div className=" flex flex-col flex-grow gap-2 items-center justify-center">
                     <div className={` w-32 h-32 rounded-full overflow-hidden`}>
                         {
                             authUser?.profilePhoto && authUser.profilePhoto.trim() !== '' ? (
@@ -53,7 +53,7 @@ const Setting = () => {
                 <div className="flex items-center my-4 gap-8 cursor-pointer " onClick={()=>handleCopyClick("bio")} >
                     <div className="text-[1.5rem] text-gray-500"><FiEdit2 /></div>
                     <div className="flex flex-col">
-                        <div className="text-[1.2rem]">
+                        <div className="text-[1.1rem]">
                             {
                                 authUser?.bio
                             }
@@ -66,7 +66,7 @@ const Setting = () => {
                 <div className="flex items-center gap-8 cursor-pointer " onClick={()=>handleCopyClick("username")} >
                     <div className="text-[1.5rem] text-gray-500"><FiAtSign /></div>
                     <div className="flex flex-col">
-                        <div className="text-[1.2rem]">
+                        <div className="text-[1.1rem]">
                             {
                                 authUser?.username
                             }

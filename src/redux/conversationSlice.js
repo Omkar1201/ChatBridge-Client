@@ -13,10 +13,7 @@ const allConversationsSlice = createSlice({
             const newConversation = action.payload;
 
             const index = state.allConversations.findIndex((conv) => {
-
-                const currentParticipants = conv.participants.map(p => p._id).sort();
-                const newParticipants = newConversation.participants.map(p => p._id).sort();
-                return currentParticipants.join() === newParticipants.join();
+                return conv._id === newConversation._id;
             });
 
             if (index !== -1) {
