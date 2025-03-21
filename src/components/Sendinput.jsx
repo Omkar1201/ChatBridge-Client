@@ -4,9 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 import toast from 'react-hot-toast';
 import { addOrUpdateConversation } from "../redux/conversationSlice";
 import { VscSend } from "react-icons/vsc";
+import { MdTranslate } from "react-icons/md";
 
 const Sendinput = () => {
     const [usersMessage, setUsersMessage] = useState("");
+    const [isLoading, setIsLoading] = useState(false)
+
     const { selectedUser } = useSelector(store => store.user);
     const dispatch = useDispatch();
     const textareaRef = useRef(null);
@@ -49,7 +52,26 @@ const Sendinput = () => {
             messageSubmitHandler(event);
         }
     };
-
+    const translate = async () => {
+        try {
+            setIsLoading(true)
+            const responseData = await axios.post(
+                `${process.env.REACT_APP_BASE_URL}/message/translate`,
+                { message: usersMessage },
+                {
+                    headers: { 'Content-Type': 'application/json' },
+                    withCredentials: true,
+                }
+            );
+            setUsersMessage(responseData?.data?.translatedMessage)
+        } catch (error) {
+            console.error("Error in translating message:", error.response?.data);
+            toast.error(error.response?.data?.message);
+        }
+        finally {
+            setIsLoading(false)
+        }
+    }
     return (
         <div className="absolute bottom-0 w-full border-r border-b border-t bg-white z-10">
             <form onSubmit={messageSubmitHandler} className="flex items-center px-2 py-1">
@@ -60,8 +82,14 @@ const Sendinput = () => {
                     value={usersMessage}
                     onChange={(e) => setUsersMessage(e.target.value)}
                     style={{ resize: "none", overflow: "hidden" }}
-                    className="outline-none w-full bg-transparent rounded-md"
+                    className="outline-none w-full px-1 bg-transparent rounded-md"
                 />
+                <div onClick={translate} className={`text-[1.5rem] cursor-pointer mr-4 ${usersMessage ? 'block' : 'hidden'}`}>
+                    {
+                        isLoading ? <div className="loading loading-spinner text-secondary"></div>
+                            : <MdTranslate />
+                    }
+                </div>
                 <button type="submit" className=" text-[1.5rem]">
                     <VscSend />
                 </button>
