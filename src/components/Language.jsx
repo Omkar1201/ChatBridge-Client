@@ -96,7 +96,6 @@ const Language = ({ setShowLanguages }) => {
             );
         }
     };
-    console.log(authUser);
     
     return (
         <div className="px-4 pt-2 h-full">
