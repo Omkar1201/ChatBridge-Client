@@ -10,7 +10,7 @@ const Sendinput = () => {
     const [usersMessage, setUsersMessage] = useState("");
     const [isLoading, setIsLoading] = useState(false)
 
-    const { selectedUser } = useSelector(store => store.user);
+    const { authUser,selectedUser } = useSelector(store => store.user);
     const dispatch = useDispatch();
     const textareaRef = useRef(null);
 
@@ -57,7 +57,7 @@ const Sendinput = () => {
             setIsLoading(true)
             const responseData = await axios.post(
                 `${process.env.REACT_APP_BASE_URL}/message/translate`,
-                { message: usersMessage },
+                { message: usersMessage ,targetLanguage:authUser?.translateMessageTo},
                 {
                     headers: { 'Content-Type': 'application/json' },
                     withCredentials: true,

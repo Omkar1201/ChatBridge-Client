@@ -5,8 +5,9 @@ import { MdOutlineAddAPhoto } from "react-icons/md";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { setAuthUser } from "../redux/userSlice";
+import { GoArrowLeft } from "react-icons/go";
 
-const Edit = () => {
+const Edit = ({ setShowEdit }) => {
     const { authUser } = useSelector((store) => store.user);
 
     const dispatch = useDispatch()
@@ -113,7 +114,12 @@ const Edit = () => {
 
     return (
         <div className="px-4 pt-2">
-            <div className="text-[1.5rem] font-semibold mt-2">Edit</div>
+            <div className="text-[1.5rem] font-semibold mt-2 flex items-center gap-4">
+                <div onClick={() => setShowEdit(false)} className="cursor-pointer hover:bg-gray-100 rounded-full p-2">
+                    <GoArrowLeft />
+                </div>
+                Edit
+            </div>
             <div className="flex justify-center my-10">
                 <div className="w-32 h-32 border-black relative rounded-full overflow-hidden group cursor-pointer">
                     {previewUrl ? (

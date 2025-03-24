@@ -6,12 +6,12 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setAuthUser, setOnlineUsers, setOtherUsers, setSelectedUser } from "../redux/userSlice";
-import { RxCross2 } from "react-icons/rx";
 import Setting from "./Setting";
 import { LuSettings } from "react-icons/lu";
 import { setAllConversations } from "../redux/conversationSlice";
 import OtherusersSkeleton from "../skeletons/OtherusersSkeleton";
 import { setIsLoading } from "../redux/loadingSlice";
+import { RxCross2 } from "react-icons/rx";
 
 const Sidebar = () => {
     const { isLoading } = useSelector(store => store.loader)
@@ -125,14 +125,7 @@ const Sidebar = () => {
                             className={`absolute inset-0 bg-white z-50 transition-transform duration-300 
                     ${showSettings ? "translate-x-0" : "translate-x-full"}`}
                         >
-                            <button
-                                onClick={() => setShowSettings(false)}
-                                className="absolute top-4 right-4 text-[1.5rem] rounded-full p-2 hover:bg-gray-100 "
-                                title="Close"
-                            >
-                                <RxCross2 />
-                            </button>
-                            <Setting />
+                            <Setting setShowSettings={setShowSettings} />
                         </div>
                     </div>
                 </>)

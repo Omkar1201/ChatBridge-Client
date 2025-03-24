@@ -1,16 +1,18 @@
 import { useSelector } from "react-redux"
 import { FaUser } from "react-icons/fa6";
-import { FiAtSign } from "react-icons/fi";
+import { FiAtSign, FiEdit2 } from "react-icons/fi";
 import toast from "react-hot-toast";
-import { MdEdit } from "react-icons/md";
+import { MdEdit, MdTranslate } from "react-icons/md";
 import Edit from "./Edit";
 import { RxCross2 } from "react-icons/rx";
 import { useState } from "react";
-import { FiEdit2 } from "react-icons/fi";
+import Language from "./Language";
 
-const Setting = () => {
+const Setting = ({ setShowSettings }) => {
     const { authUser } = useSelector(store => store.user)
     const [showEdit, setShowEdit] = useState(false);
+    const [showLanguages, setShowLanguages] = useState(false);
+
     const handleCopyClick = async (query) => {
         try {
             await navigator.clipboard.writeText(authUser?.[query])
@@ -23,8 +25,13 @@ const Setting = () => {
     }
     return (
         <div>
-            <div className="bg-white px-4 pt-2 pb-5 h-full border-b ">
-                <div className={`text-[1.5rem] font-semibold mt-2 `} >Setting</div>
+            <div className="bg-white pt-2 px-4  pb-5 h-full border-b ">
+                <div className={`text-[1.5rem] font-semibold mt-2 flex items-center justify-between `} >
+                    Setting
+                    <div onClick={()=>setShowSettings(false)} className="hover:bg-zinc-100 p-2 cursor-pointer rounded-full">
+                        <RxCross2 />
+                    </div>
+                </div>
                 <div className="flex justify-end text-[1.5rem] mt-4">
                     <div className="hover:bg-gray-100 p-2 cursor-pointer rounded-full" onClick={() => setShowEdit(!showEdit)} title="Edit profile">
                         <MdEdit />
@@ -50,7 +57,7 @@ const Setting = () => {
                     </div>
 
                 </div>
-                <div className="flex items-center my-4 gap-8 cursor-pointer " onClick={()=>handleCopyClick("bio")} >
+                <div className="flex items-center my-4 gap-8 cursor-pointer " onClick={() => handleCopyClick("bio")} >
                     <div className="text-[1.5rem] text-gray-500"><FiEdit2 /></div>
                     <div className="flex flex-col">
                         <div className="text-[1.1rem]">
@@ -63,7 +70,7 @@ const Setting = () => {
                         </div>
                     </div>
                 </div>
-                <div className="flex items-center gap-8 cursor-pointer " onClick={()=>handleCopyClick("username")} >
+                <div className="flex items-center gap-8 cursor-pointer " onClick={() => handleCopyClick("username")} >
                     <div className="text-[1.5rem] text-gray-500"><FiAtSign /></div>
                     <div className="flex flex-col">
                         <div className="text-[1.1rem]">
@@ -78,18 +85,26 @@ const Setting = () => {
                 </div>
             </div>
 
+            <div className="border-t p-2 mt-3">
+                <div className="flex px-2 py-2 rounded-md items-center gap-8 cursor-pointer hover:bg-gray-100 " onClick={() => setShowLanguages(true)}>
+                    <div className="text-[1.5rem] text-gray-500"><MdTranslate /></div>
+                    <div className="text-[1.1rem]">
+                        Language
+                    </div>
+                </div>
 
+            </div>
+
+            <div
+                className={`absolute inset-0 bg-white z-50 transition-transform duration-300 
+                                ${showLanguages ? "translate-x-0" : "translate-x-full"}`}
+            >
+                <Language setShowLanguages={setShowLanguages}/>
+            </div>
             <div
                 className={`absolute inset-0 bg-white z-50 transition-transform duration-300 
                                 ${showEdit ? "translate-x-0" : "translate-x-full"}`}
             >
-                <button
-                    onClick={() => setShowEdit(false)}
-                    className="absolute top-4 right-4 text-[1.5rem] rounded-full p-2 hover:bg-gray-100 "
-                    title="Close"
-                >
-                    <RxCross2 />
-                </button>
                 <Edit setShowEdit={setShowEdit} />
             </div>
         </div>
