@@ -4,15 +4,28 @@ import { useDispatch, useSelector } from "react-redux";
 import toast from 'react-hot-toast';
 import { addOrUpdateConversation } from "../redux/conversationSlice";
 import { VscSend } from "react-icons/vsc";
-import { MdTranslate } from "react-icons/md";
+import { MdTranslate, MdEdit } from "react-icons/md";
+import { RxCross2 } from "react-icons/rx";
+import { setSelectedMessageForEdit } from "../redux/messageSlice";
 
 const Sendinput = () => {
-    const [usersMessage, setUsersMessage] = useState("");
-    const [isLoading, setIsLoading] = useState(false)
+    const { authUser, selectedUser } = useSelector(store => store.user);
+    const { selectedMessageForEdit } = useSelector(store => store.message);
 
-    const { authUser,selectedUser } = useSelector(store => store.user);
     const dispatch = useDispatch();
     const textareaRef = useRef(null);
+
+    const [usersMessage, setUsersMessage] = useState('');
+    const [isLoading, setIsLoading] = useState(false)
+
+    useEffect(() => {
+        setUsersMessage(selectedMessageForEdit.message);
+    }, [selectedMessageForEdit]);
+
+    useEffect(()=>{
+        dispatch(setSelectedMessageForEdit(''))
+        setUsersMessage('')
+    },[selectedUser])
 
     const adjustTextareaHeight = () => {
         const textarea = textareaRef.current;
@@ -57,7 +70,7 @@ const Sendinput = () => {
             setIsLoading(true)
             const responseData = await axios.post(
                 `${process.env.REACT_APP_BASE_URL}/message/translate`,
-                { message: usersMessage ,targetLanguage:authUser?.translateMessageTo},
+                { message: usersMessage, targetLanguage: authUser?.translateMessageTo },
                 {
                     headers: { 'Content-Type': 'application/json' },
                     withCredentials: true,
@@ -72,8 +85,32 @@ const Sendinput = () => {
             setIsLoading(false)
         }
     }
+    const handleCancelEdit = () => {
+        dispatch(setSelectedMessageForEdit(''))
+        setUsersMessage('')
+    }
     return (
         <div className="absolute bottom-0 w-full border-r border-b border-t bg-white z-10">
+            {
+                selectedMessageForEdit &&
+                <div className="border h-[4rem] p-2">
+                    <div className="bg-green-100 h-full flex items-center gap-2 px-2">
+                        <div className="text-[1.2rem] text-green-800">
+                            <MdEdit />
+                        </div>
+                        <div>
+                            <div className=" text-[0.8rem] font-semibold text-green-800">
+                                Edit Message
+                            </div>
+                            <div className="text-[0.8rem]">
+                                {
+                                    selectedMessageForEdit?.message
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
             <form onSubmit={messageSubmitHandler} className="flex items-center px-2 py-1">
                 <textarea
                     ref={textareaRef}
@@ -84,6 +121,12 @@ const Sendinput = () => {
                     style={{ resize: "none", overflow: "hidden" }}
                     className="outline-none w-full px-1 bg-transparent rounded-md"
                 />
+                {
+                    selectedMessageForEdit &&
+                    <div onClick={handleCancelEdit} className="mr-4 text-[1.5rem] hover:bg-zinc-100 p-1 rounded-sm cursor-pointer">
+                        <RxCross2 />
+                    </div>
+                }
                 <div onClick={translate} className={`text-[1.5rem] cursor-pointer mr-4 ${usersMessage ? 'block' : 'hidden'}`}>
                     {
                         isLoading ? <div className="loading loading-spinner text-secondary"></div>

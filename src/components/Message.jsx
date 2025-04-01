@@ -2,8 +2,7 @@ import { useEffect, useRef } from "react"
 import { useSelector } from "react-redux"
 
 
-const Message = ({ message }) => {
-
+const Message = ({ message, onRightClick }) => {
     const scroll = useRef()
     const { authUser } = useSelector(store => store.user)
 
@@ -18,10 +17,18 @@ const Message = ({ message }) => {
     return (
         <>
             <div ref={scroll} className={` flex ${authUser?._id === message?.senderId ? 'justify-end chat-end' : 'justify-start chat-start'} chat`}>
-                <div className={`chat-bubble break-words max-w-[20rem] ${authUser?._id === message?.senderId ? '' : 'chat-bubble-primary border'}`}>
+                <div
+                    onContextMenu={(e) => onRightClick(e, message._id)}
+                    className={`chat-bubble break-words max-w-[20rem] ${authUser?._id === message?.senderId ? '' : 'chat-bubble-primary border'}`}>
                     {message.message}
-                    <div className={`text-[0.7rem] mx-2 w-full text-right`} >
-                        {timeString}
+                    <div className="flex items-center justify-end text-[0.7rem] ">
+                        {
+                            message.isEdited &&
+                            <div>Edited</div>
+                        }
+                        <div className={`mx-2`} >
+                            {timeString}
+                        </div>
                     </div>
                 </div>
             </div>

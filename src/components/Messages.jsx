@@ -3,17 +3,35 @@ import { useSelector } from "react-redux";
 import Message from "./Message";
 import useGetRealTimeMessage from "../hooks/useGetRealTimeMessage";
 import { HiArrowDown } from "react-icons/hi2";
+import ContextMenu from "./ContextMenu";
 
-const SCROLL_THRESHOLD = 200; // Pixels from bottom to show button
+const SCROLL_THRESHOLD = 200;
 
 const Messages = () => {
     useGetRealTimeMessage();
     const containerRef = useRef(null);
     const [showScrollButton, setShowScrollButton] = useState(false);
+    const [contextMenu, setContextMenu] = useState({
+        visible: false,
+        x: 0,
+        y: 0,
+        message: ''
+    });
+
     const { allConversations } = useSelector((store) => store.conversation);
     const { selectedUser, authUser } = useSelector((store) => store.user);
     const [selectedUserConversation, setSelectedUserConversation] = useState([]);
     const { isLoading } = useSelector(store => store.loader)
+
+    const handleMessageRightClick = (e, message) => {
+        e.preventDefault();
+        setContextMenu({
+            visible: true,
+            x: e.clientX,
+            y: e.clientY,
+            message
+        });
+    };
 
     const scrollToBottom = () => {
         if (containerRef.current) {
@@ -31,6 +49,12 @@ const Messages = () => {
             setShowScrollButton(distanceFromBottom > SCROLL_THRESHOLD);
         }
     };
+
+    useEffect(() => {
+        const handleRightClick = () => setContextMenu(prev => ({ ...prev, visible: false }));
+        window.addEventListener("click", handleRightClick);
+        return () => window.removeEventListener("click", handleRightClick);
+    }, []);
 
     useEffect(() => {
         const conversation = allConversations?.find((conv) =>
@@ -51,26 +75,33 @@ const Messages = () => {
                 onScroll={handleScroll}
                 className="max-h-[calc(100vh-6.9rem)] relative px-16 h-full border-black overflow-auto"
             >
-                {
-                    isLoading ? (
-                        <div className="flex items-center justify-center h-[calc(100vh-6.9rem)]">
-                            <div className="loading loading-spinner loading-lg text-secondary">
-                            </div>
-                        </div>
-                    ) :
-                        (
-                            selectedUserConversation?.length > 0 ? (
-                                selectedUserConversation.map((message) => (
-                                    <Message message={message} key={message._id} />
-                                ))
-                            ) : (
-                                <p className="text-center text-gray-500 mt-4">
-                                    No messages found. Start a conversation!
-                                </p>
-                            )
-                        )
-                }
+                {isLoading ? (
+                    <div className="flex items-center justify-center h-[calc(100vh-6.9rem)]">
+                        <div className="loading loading-spinner loading-lg text-secondary" />
+                    </div>
+                ) : selectedUserConversation?.length > 0 ? (
+                    selectedUserConversation.map((message) => (
+                        <Message
+                            key={message._id}
+                            message={message}
+                            onRightClick={(e)=>handleMessageRightClick(e,message)}
+                        />
+                    ))
+                ) : (
+                    <p className="text-center text-gray-500 mt-4">
+                        No messages found. Start a conversation!
+                    </p>
+                )}
             </div>
+
+            {contextMenu.visible && (
+                <div
+                    className="fixed z-50 bg-white shadow-lg rounded-lg border"
+                    style={{ left: contextMenu.x, top: contextMenu.y }}
+                >
+                    <ContextMenu message={contextMenu.message} />
+                </div>
+            )}
 
             {showScrollButton && (
                 <button
