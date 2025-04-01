@@ -52,7 +52,7 @@ const Sidebar = () => {
     const logOutHandler = async () => {
         try {
             const responseData = await axios.get(
-                `${process.env.REACT_APP_BASE_URL}/user/logout`,
+                `${process.env.REACT_APP_BASE_URL}/api/v1/user/logout`,
                 {
                     headers: { 'Content-Type': 'application/json' },
                     withCredentials: true

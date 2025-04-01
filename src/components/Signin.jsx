@@ -25,7 +25,7 @@ const Signin = () => {
         try {
             // axios.defaults.withCredentials=true;
             const responseData = await axios.post(
-                `${process.env.REACT_APP_BASE_URL}/user/signin`,
+                `${process.env.REACT_APP_BASE_URL}/api/v1/user/signin`,
                 { username, password },
                 {
                     headers: {

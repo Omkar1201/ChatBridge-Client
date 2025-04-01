@@ -9,7 +9,7 @@ export const SocketProvider = ({ children }) => {
     const connectSocket = (user) => {
         if (!socketRef.current && user) {
             const socket = io(
-                `${process.env.REACT_APP_BASE_URL}`.replace('/api/v1', ''),
+                `${process.env.REACT_APP_BASE_URL}`,
                 { withCredentials: true }
             );
             socketRef.current = socket;

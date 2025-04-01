@@ -88,7 +88,7 @@ const Edit = ({ setShowEdit }) => {
 
         try {
             const responseData = await axios.post(
-                `${process.env.REACT_APP_BASE_URL}/user/edit`,
+                `${process.env.REACT_APP_BASE_URL}/api/v1/user/edit`,
                 payload,
                 {
                     headers: {

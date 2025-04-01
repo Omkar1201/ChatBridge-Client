@@ -40,7 +40,7 @@ const Signup = () => {
         setIsLoading(true);
         try {
             const responseData = await axios.post(
-                `${process.env.REACT_APP_BASE_URL}/user/signup`,
+                `${process.env.REACT_APP_BASE_URL}/api/v1/user/signup`,
                 { fullName: userData.fullName, username: userData.username, email: userData.email, password: userData.password },
                 {
                     headers: {

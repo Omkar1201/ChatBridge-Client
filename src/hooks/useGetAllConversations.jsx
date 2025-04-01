@@ -11,7 +11,7 @@ const useGetAllConversations = () => {
         const fetchConversations = async () => {
             try {
                 const responseData = await axios.get(
-                    `${process.env.REACT_APP_BASE_URL}/message/getconversations`,
+                    `${process.env.REACT_APP_BASE_URL}/api/v1/message/getconversations`,
                     { withCredentials: true }
                 );
 

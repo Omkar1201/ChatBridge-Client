@@ -53,7 +53,7 @@ const Sendinput = () => {
         if (!usersMessage.trim()) return;
         try {
             const responseData = await axios.post(
-                `${process.env.REACT_APP_BASE_URL}/message/send/${selectedUser?._id}`,
+                `${process.env.REACT_APP_BASE_URL}/api/v1/message/send/${selectedUser?._id}`,
                 { message: usersMessage },
                 {
                     headers: { 'Content-Type': 'application/json' },
@@ -72,7 +72,7 @@ const Sendinput = () => {
         event.preventDefault();
         try {
             const responseData = await axios.post(
-                `${process.env.REACT_APP_BASE_URL}/message/edit/${selectedMessageForEdit._id}`,
+                `${process.env.REACT_APP_BASE_URL}/api/v1/message/edit/${selectedMessageForEdit._id}`,
                 { message: usersMessage },
                 {
                     headers: { 'Content-Type': 'application/json' },
@@ -99,7 +99,7 @@ const Sendinput = () => {
         try {
             setIsLoading(true)
             const responseData = await axios.post(
-                `${process.env.REACT_APP_BASE_URL}/message/translate`,
+                `${process.env.REACT_APP_BASE_URL}/api/v1/message/translate`,
                 { message: usersMessage, targetLanguage: authUser?.translateMessageTo },
                 {
                     headers: { 'Content-Type': 'application/json' },
