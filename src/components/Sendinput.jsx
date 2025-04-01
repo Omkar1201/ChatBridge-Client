@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import toast from 'react-hot-toast';
 import { addOrUpdateConversation } from "../redux/conversationSlice";
 import { VscSend } from "react-icons/vsc";
-import { MdTranslate, MdEdit } from "react-icons/md";
+import { MdTranslate, MdEdit, MdCheck } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
 import { setSelectedMessageForEdit } from "../redux/messageSlice";
 
@@ -22,10 +22,11 @@ const Sendinput = () => {
         setUsersMessage(selectedMessageForEdit.message);
     }, [selectedMessageForEdit]);
 
-    useEffect(()=>{
+    useEffect(() => {
         dispatch(setSelectedMessageForEdit(''))
         setUsersMessage('')
-    },[selectedUser])
+        // eslint-disable-next-line
+    }, [selectedUser])
 
     const adjustTextareaHeight = () => {
         const textarea = textareaRef.current;
@@ -38,6 +39,14 @@ const Sendinput = () => {
     useEffect(() => {
         adjustTextareaHeight();
     }, [usersMessage]);
+
+    const handleSubmit = (event) => {
+        if (selectedMessageForEdit) {
+            handleEditMessage(event);
+        } else {
+            messageSubmitHandler(event);
+        }
+    }
 
     const messageSubmitHandler = async (event) => {
         event.preventDefault();
@@ -59,10 +68,31 @@ const Sendinput = () => {
         }
     };
 
+    const handleEditMessage = async (event) => {
+        event.preventDefault();
+        try {
+            const responseData = await axios.post(
+                `${process.env.REACT_APP_BASE_URL}/message/edit/${selectedMessageForEdit._id}`,
+                { message: usersMessage },
+                {
+                    headers: { 'Content-Type': 'application/json' },
+                    withCredentials: true,
+                }
+            )
+            dispatch(setSelectedMessageForEdit(""))
+            dispatch(addOrUpdateConversation(responseData?.data?.updatedConversation));
+            setUsersMessage("");
+        }
+        catch (error) {
+            console.error("Error in Editing message:", error.response?.data);
+            toast.error(error.response?.data.message);
+        }
+    }
+
     const handleKeyDown = (event) => {
         if (event.key === "Enter" && !event.shiftKey) {
             event.preventDefault();
-            messageSubmitHandler(event);
+            selectedMessageForEdit ? handleEditMessage(event) : messageSubmitHandler(event);
         }
     };
     const translate = async () => {
@@ -111,7 +141,7 @@ const Sendinput = () => {
                     </div>
                 </div>
             }
-            <form onSubmit={messageSubmitHandler} className="flex items-center px-2 py-1">
+            <form onSubmit={handleSubmit} className="flex items-center px-2 py-1">
                 <textarea
                     ref={textareaRef}
                     placeholder="Type a message..."
@@ -133,11 +163,24 @@ const Sendinput = () => {
                             : <MdTranslate />
                     }
                 </div>
-                <button type="submit" className=" text-[1.5rem]">
-                    <VscSend />
-                </button>
+
+                {
+                    selectedMessageForEdit ? (
+                        <button
+                            type="submit"
+                            className="text-[1.5rem] hover:bg-zinc-100 p-1 rounded-sm"
+                        >
+                            <MdCheck />
+                        </button>
+                    ) :
+                        (
+                            <button type="submit" className="text-[1.5rem]">
+                                <VscSend />
+                            </button>
+                        )
+                }
             </form>
-        </div>
+        </div >
     );
 };
 

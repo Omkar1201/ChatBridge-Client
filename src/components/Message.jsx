@@ -18,8 +18,13 @@ const Message = ({ message, onRightClick }) => {
         <>
             <div ref={scroll} className={` flex ${authUser?._id === message?.senderId ? 'justify-end chat-end' : 'justify-start chat-start'} chat`}>
                 <div
-                    onContextMenu={(e) => onRightClick(e, message._id)}
-                    className={`chat-bubble break-words max-w-[20rem] ${authUser?._id === message?.senderId ? '' : 'chat-bubble-primary border'}`}>
+                    onContextMenu={(e) => {
+                        if (authUser?._id === message?.senderId) {
+                            onRightClick(e, message._id);
+                        }
+                    }}
+                    className={`chat-bubble break-words max-w-[20rem] ${authUser?._id === message?.senderId ? '' : 'chat-bubble-primary border'}`}
+                >
                     {message.message}
                     <div className="flex items-center justify-end text-[0.7rem] ">
                         {
@@ -31,7 +36,7 @@ const Message = ({ message, onRightClick }) => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div >
         </>
     )
 }
